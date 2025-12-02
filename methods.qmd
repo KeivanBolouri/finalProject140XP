@@ -7,24 +7,36 @@ format: html
 
 To evaluate our hypotheses, we estimate a series of **negative binomial regression models**, which are appropriate because both civilian casualty counts and reporting uncertainty exhibit substantial overdispersion. All models use minimum casualty estimates as outcome variables, with country (“region”) as the primary predictor of interest and strike characteristics as controls.
 
-**Hypothesis 1: Civilian Harm Difference**\
+### Hypothesis 1: Civilian Harm Difference
+
 To test whether Somalia and Yemen differ in civilian casualty rates, we estimate:
 
-\[ \text{civilian\_casualties} \sim \text{region} + \text{drone} + \text{us\_confirmed} + \text{min\_strikes} + \text{total\_killed} \]
+$$
+\text{civilian\_casualties} \sim \text{region} + \text{drone} + \text{us\_confirmed} + \text{min\_strikes} + \text{total\_killed}
+$$
 
-**Hypothesis 2: Drone Effectiveness Across Countries**\
+### Hypothesis 2: Drone Effectiveness Across Countries
+
 To test whether the impact of drone strikes differs between Somalia and Yemen, we estimate an interaction model:
 
-\[ \text{civilian\_casualties} \sim \text{drone} + \text{region} + \text{drone}:\text{region} + \text{us\_confirmed} + \text{min\_strikes} + \text{total\_killed} \]
+$$
+\text{civilian\_casualties} \sim \text{drone} + \text{region} + \text{drone}:\text{region}
+ + \text{us\_confirmed} + \text{min\_strikes} + \text{total\_killed}
+$$
 
-**Hypothesis 3: Reporting Uncertainty**\
+### Hypothesis 3: Reporting Uncertainty
+
 To assess whether casualty reporting uncertainty differs between regions, we model the uncertainty metric:
 
-\[ \text{uncertainty\_killed} \sim \text{region} + \text{drone} + \text{us\_confirmed} + \text{min\_strikes} \]
+$$
+\text{uncertainty\_killed} \sim \text{region} + \text{drone} + \text{us\_confirmed} + \text{min\_strikes}
+$$
 
 where:
 
-\[ \text{uncertainty\_killed} = \text{max\_killed} - \text{min\_killed} \]
+$$
+\text{uncertainty\_killed} = \text{max\_killed} - \text{min\_killed}
+$$
 
 These models allow us to isolate regional differences while controlling for relevant strike characteristics such as weapon type, confirmation status, and strike intensity.
 
@@ -35,9 +47,7 @@ These models allow us to isolate regional differences while controlling for rele
 #| warning: false
 #| error: false
 
-###############################################
-## 0. Setup
-###############################################
+
 
 
 
@@ -52,7 +62,7 @@ library(broom)
 ## 1. Read in Somalia & Yemen data
 ###############################################
 
-# Adjust the file paths if your files are somewhere else
+
 somalia_raw <- read_excel("us-strikes-in-somalia-2007-to-present.xlsx",
                           sheet = "All US actions")
 
@@ -163,7 +173,7 @@ combined_model <- combined %>%
 ## 4. Negative binomial models for hypotheses
 ###############################################
 
-# NOTE: we are using negative binomial ONLY (no Poisson).
+# NOTE: we are using negative binomial ONLY .
 
 ################################
 ## Hypothesis 1: Civilian Harm ##
@@ -255,6 +265,8 @@ Reporting uncertainty does **not** differ between regions (Yemen coef = −0.16,
 However, drone strikes show **higher uncertainty** (coef = 0.62, IRR = **1.86**, *p* = 0.013), while confirmed U.S. strikes show **lower uncertainty** (coef = −0.69, IRR = **0.50**, *p* = 0.006).\
 **Conclusion:** No regional difference in uncertainty → *H3 not supported*, though uncertainty varies by strike type.
 
+## Visualizations
+
 ```{r}
 #| echo: false
 #| warning: false
@@ -319,5 +331,49 @@ y = "Mean uncertainty in casualties",
 fill = "Strike type"
 ) +
 theme_minimal()
+
+```
+
+```{r}
+#| include: false
+combined_model %>% 
+  arrange(desc(total_killed)) %>% 
+  head(10)
+
+
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+ggplot(combined_model, aes(x = region, y = total_killed, fill = region)) +
+  geom_boxplot(alpha = 0.7) +
+  scale_y_log10() +
+  labs(
+    title = "Total Fatalities by Region (log scale)",
+    x = "Region",
+    y = "Total killed (log10)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+ggplot(combined_model, aes(x = region, y = total_killed, fill = region)) +
+  geom_violin(alpha = 0.6, trim = FALSE) +
+  geom_jitter(width = 0.15, alpha = 0.3) +
+  scale_y_log10() +   # optional but recommended
+  labs(
+    title = "Distribution of Total Fatalities by Region",
+    x = "Region",
+    y = "Total killed (log scale)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
 
 ```
