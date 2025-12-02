@@ -4,8 +4,13 @@ format: html
 ---
 
 ## Methods
+
 We will use regression models to evaluate the significance of the key parameters in our hypotheses. Because casualty counts are highly dispersed, the primary analytical approach will be the negative binomial regression model, which is well-suited for overdispersed count data.
-Hypothesis 1: civilian_casualties ~ region + drone + us_confirmed + min_strikes + total_killed
-Hypothesis 2: civilian_casualties ~ drone + region + drone:region + us_confirmed + min_strikes + total_killed
-Hypothesis 3: uncertainty_killed ~ region + drone + us_confirmed + min_strikes
-(uncertainty_killed = max_killed - min_killed)
+
+Hypothesis 1:
+
+civilian_casualties \~ region + drone + us_confirmed + min_strikes + total_killed
+
+Hypothesis 2:
+
+civilian_casualties \~ drone + region + drone:region + us_confirmed + min_strikes + total_killed Hypothesis 3: uncertainty_killed \~ region + drone + us_confirmed + min_strikes (uncertainty_killed = max_killed - min_killed)

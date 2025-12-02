@@ -145,7 +145,11 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="methods" class="level2">
 <h2 class="anchored" data-anchor-id="methods">Methods</h2>
-<p>We will use regression models to evaluate the significance of the key parameters in our hypotheses. Because casualty counts are highly dispersed, the primary analytical approach will be the negative binomial regression model, which is well-suited for overdispersed count data. Hypothesis 1: civilian_casualties ~ region + drone + us_confirmed + min_strikes + total_killed Hypothesis 2: civilian_casualties ~ drone + region + drone:region + us_confirmed + min_strikes + total_killed Hypothesis 3: uncertainty_killed ~ region + drone + us_confirmed + min_strikes (uncertainty_killed = max_killed - min_killed)</p>
+<p>We will use regression models to evaluate the significance of the key parameters in our hypotheses. Because casualty counts are highly dispersed, the primary analytical approach will be the negative binomial regression model, which is well-suited for overdispersed count data.</p>
+<p>Hypothesis 1:</p>
+<p>civilian_casualties ~ region + drone + us_confirmed + min_strikes + total_killed</p>
+<p>Hypothesis 2:</p>
+<p>civilian_casualties ~ drone + region + drone:region + us_confirmed + min_strikes + total_killed Hypothesis 3: uncertainty_killed ~ region + drone + us_confirmed + min_strikes (uncertainty_killed = max_killed - min_killed)</p>
 
 
 </section>

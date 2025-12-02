@@ -1,52 +1,17 @@
 [
   {
-    "objectID": "Projects.html#shanmei-wanyan",
-    "href": "Projects.html#shanmei-wanyan",
+    "objectID": "Projects.html",
+    "href": "Projects.html",
     "title": "Projects",
-    "section": "Shanmei Wanyan",
-    "text": "Shanmei Wanyan"
+    "section": "",
+    "text": "Responsibilities: Poster: Daniel, Keivan Presentation: Evelyn, Shanmei Report: Shanmei, Keivan, Linxue Coding: Itaru, Daniel"
   },
   {
-    "objectID": "Projects.html#daniel-dai",
-    "href": "Projects.html#daniel-dai",
+    "objectID": "Projects.html#team-members-and-responsibilities",
+    "href": "Projects.html#team-members-and-responsibilities",
     "title": "Projects",
-    "section": "Daniel Dai",
-    "text": "Daniel Dai"
-  },
-  {
-    "objectID": "Projects.html#keivan-bolouri",
-    "href": "Projects.html#keivan-bolouri",
-    "title": "Projects",
-    "section": "Keivan Bolouri",
-    "text": "Keivan Bolouri"
-  },
-  {
-    "objectID": "Projects.html#itaru-fukushima",
-    "href": "Projects.html#itaru-fukushima",
-    "title": "Projects",
-    "section": "Itaru Fukushima",
-    "text": "Itaru Fukushima"
-  },
-  {
-    "objectID": "Projects.html#linxue-guo",
-    "href": "Projects.html#linxue-guo",
-    "title": "Projects",
-    "section": "Linxue Guo",
-    "text": "Linxue Guo"
-  },
-  {
-    "objectID": "Projects.html#evelyn-isaka",
-    "href": "Projects.html#evelyn-isaka",
-    "title": "Projects",
-    "section": "Evelyn Isaka",
-    "text": "Evelyn Isaka"
-  },
-  {
-    "objectID": "Projects.html#responsibilities",
-    "href": "Projects.html#responsibilities",
-    "title": "Projects",
-    "section": "Responsibilities",
-    "text": "Responsibilities\nResponsibilities: Poster: Daniel, Keivan\nPresentation: Evelyn, Shanmei Report: Shanmei, Keivan, Linxue Coding: Itaru, Daniel"
+    "section": "",
+    "text": "Responsibilities: Poster: Daniel, Keivan Presentation: Evelyn, Shanmei Report: Shanmei, Keivan, Linxue Coding: Itaru, Daniel"
   },
   {
     "objectID": "index.html",
@@ -60,13 +25,13 @@
     "href": "methods.html",
     "title": "methods",
     "section": "",
-    "text": "We will use regression models to evaluate the significance of the key parameters in our hypotheses. Because casualty counts are highly dispersed, the primary analytical approach will be the negative binomial regression model, which is well-suited for overdispersed count data.\nHypothesis 1:\ncivilian_casualties ~ region + drone + us_confirmed + min_strikes + total_killed\nHypothesis 2:\ncivilian_casualties ~ drone + region + drone:region + us_confirmed + min_strikes + total_killed Hypothesis 3: uncertainty_killed ~ region + drone + us_confirmed + min_strikes (uncertainty_killed = max_killed - min_killed)"
+    "text": "We will use regression models to evaluate the significance of the key parameters in our hypotheses. Because casualty counts are highly dispersed, the primary analytical approach will be the negative binomial regression model, which is well-suited for overdispersed count data. Hypothesis 1: civilian_casualties ~ region + drone + us_confirmed + min_strikes + total_killed Hypothesis 2: civilian_casualties ~ drone + region + drone:region + us_confirmed + min_strikes + total_killed Hypothesis 3: uncertainty_killed ~ region + drone + us_confirmed + min_strikes (uncertainty_killed = max_killed - min_killed)"
   },
   {
     "objectID": "methods.html#methods",
     "href": "methods.html#methods",
     "title": "methods",
     "section": "",
-    "text": "We will use regression models to evaluate the significance of the key parameters in our hypotheses. Because casualty counts are highly dispersed, the primary analytical approach will be the negative binomial regression model, which is well-suited for overdispersed count data.\nHypothesis 1:\ncivilian_casualties ~ region + drone + us_confirmed + min_strikes + total_killed\nHypothesis 2:\ncivilian_casualties ~ drone + region + drone:region + us_confirmed + min_strikes + total_killed Hypothesis 3: uncertainty_killed ~ region + drone + us_confirmed + min_strikes (uncertainty_killed = max_killed - min_killed)"
+    "text": "We will use regression models to evaluate the significance of the key parameters in our hypotheses. Because casualty counts are highly dispersed, the primary analytical approach will be the negative binomial regression model, which is well-suited for overdispersed count data. Hypothesis 1: civilian_casualties ~ region + drone + us_confirmed + min_strikes + total_killed Hypothesis 2: civilian_casualties ~ drone + region + drone:region + us_confirmed + min_strikes + total_killed Hypothesis 3: uncertainty_killed ~ region + drone + us_confirmed + min_strikes (uncertainty_killed = max_killed - min_killed)"
   }
 ]
