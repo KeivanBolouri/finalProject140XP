@@ -1,10 +1,10 @@
 project:
   type: website
+  output-dir: docs       # <--- add this line
   resources:
     - cv.pdf
 
 website:
-  
   navbar:
     left:
       - href: index.qmd
@@ -14,11 +14,8 @@ website:
       - href: team.qmd
         text: Team
 
-
-
   page-footer:
     right: "© 2025 Keivan Bolouri"
-    
 
 format:
   html:
@@ -29,6 +26,3 @@ format:
     toc: true
 
 editor: visual
-
-
-
