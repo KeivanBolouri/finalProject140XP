@@ -152,7 +152,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#statistical-methods" id="toc-statistical-methods" class="nav-link active" data-scroll-target="#statistical-methods">Statistical Methods</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link active" data-scroll-target="#methods">Methods</a></li>
   <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a>
   <ul class="collapse">
   <li><a href="#hypothesis-1-civilian-harm-differences" id="toc-hypothesis-1-civilian-harm-differences" class="nav-link" data-scroll-target="#hypothesis-1-civilian-harm-differences">Hypothesis 1: Civilian Harm Differences</a></li>
@@ -184,22 +184,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="statistical-methods" class="level2">
-<h2 class="anchored" data-anchor-id="statistical-methods">Statistical Methods</h2>
-<p>To evaluate our hypotheses, we estimate a series of <strong>negative binomial regression models</strong>, which are appropriate because both civilian casualty counts and reporting uncertainty exhibit substantial overdispersion. All models use minimum casualty estimates as outcome variables, with country (“region”) as the primary predictor of interest and strike characteristics as controls.</p>
-<p><strong>Hypothesis 1: Civilian Harm Difference</strong><br>
-To test whether Somalia and Yemen differ in civilian casualty rates, we estimate:</p>
-<p>[ + + + + ]</p>
-<p><strong>Hypothesis 2: Drone Effectiveness Across Countries</strong><br>
-To test whether the impact of drone strikes differs between Somalia and Yemen, we estimate an interaction model:</p>
-<p>[ + + : + + + ]</p>
-<p><strong>Hypothesis 3: Reporting Uncertainty</strong><br>
-To assess whether casualty reporting uncertainty differs between regions, we model the uncertainty metric:</p>
-<p>[ + + + ]</p>
-<p>where:</p>
-<p>[ = - ]</p>
-<p>These models allow us to isolate regional differences while controlling for relevant strike characteristics such as weapon type, confirmation status, and strike intensity.</p>
-<p><br>
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<p>We will use regression models to evaluate the significance of the key parameters in our hypotheses. Because casualty counts are highly dispersed, the primary analytical approach will be the negative binomial regression model, which is well-suited for overdispersed count data.</p>
+<p>Hypothesis 1:</p>
+<p>civilian_casualties ~ region + drone + us_confirmed + min_strikes + total_killed</p>
+<p>Hypothesis 2:</p>
+<p>civilian_casualties ~ drone + region + drone:region + us_confirmed + min_strikes + total_killed Hypothesis 3: uncertainty_killed ~ region + drone + us_confirmed + min_strikes (uncertainty_killed = max_killed - min_killed)<br>
 <br>
 </p>
 <div class="cell">

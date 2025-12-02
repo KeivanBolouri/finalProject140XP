@@ -3,17 +3,32 @@ title: "methods"
 format: html
 ---
 
-## Methods
+## Statistical Methods
 
-We will use regression models to evaluate the significance of the key parameters in our hypotheses. Because casualty counts are highly dispersed, the primary analytical approach will be the negative binomial regression model, which is well-suited for overdispersed count data.
+To evaluate our hypotheses, we estimate a series of **negative binomial regression models**, which are appropriate because both civilian casualty counts and reporting uncertainty exhibit substantial overdispersion. All models use minimum casualty estimates as outcome variables, with country (“region”) as the primary predictor of interest and strike characteristics as controls.
 
-Hypothesis 1:
+**Hypothesis 1: Civilian Harm Difference**\
+To test whether Somalia and Yemen differ in civilian casualty rates, we estimate:
 
-civilian_casualties \~ region + drone + us_confirmed + min_strikes + total_killed
+\[ \text{civilian\_casualties} \sim \text{region} + \text{drone} + \text{us\_confirmed} + \text{min\_strikes} + \text{total\_killed} \]
 
-Hypothesis 2:
+**Hypothesis 2: Drone Effectiveness Across Countries**\
+To test whether the impact of drone strikes differs between Somalia and Yemen, we estimate an interaction model:
 
-civilian_casualties \~ drone + region + drone:region + us_confirmed + min_strikes + total_killed Hypothesis 3: uncertainty_killed \~ region + drone + us_confirmed + min_strikes (uncertainty_killed = max_killed - min_killed)\
+\[ \text{civilian\_casualties} \sim \text{drone} + \text{region} + \text{drone}:\text{region} + \text{us\_confirmed} + \text{min\_strikes} + \text{total\_killed} \]
+
+**Hypothesis 3: Reporting Uncertainty**\
+To assess whether casualty reporting uncertainty differs between regions, we model the uncertainty metric:
+
+\[ \text{uncertainty\_killed} \sim \text{region} + \text{drone} + \text{us\_confirmed} + \text{min\_strikes} \]
+
+where:
+
+\[ \text{uncertainty\_killed} = \text{max\_killed} - \text{min\_killed} \]
+
+These models allow us to isolate regional differences while controlling for relevant strike characteristics such as weapon type, confirmation status, and strike intensity.
+
+\
 \
 
 ```{r}
