@@ -13,4 +13,296 @@ civilian_casualties \~ region + drone + us_confirmed + min_strikes + total_kille
 
 Hypothesis 2:
 
-civilian_casualties \~ drone + region + drone:region + us_confirmed + min_strikes + total_killed Hypothesis 3: uncertainty_killed \~ region + drone + us_confirmed + min_strikes (uncertainty_killed = max_killed - min_killed)
+civilian_casualties \~ drone + region + drone:region + us_confirmed + min_strikes + total_killed Hypothesis 3: uncertainty_killed \~ region + drone + us_confirmed + min_strikes (uncertainty_killed = max_killed - min_killed)\
+\
+
+```{r}
+#| warning: false
+#| error: false
+
+###############################################
+## 0. Setup
+###############################################
+
+
+
+
+library(readxl)
+library(dplyr)
+library(stringr)
+library(MASS)
+library(broom)
+
+###############################################
+## 1. Read in Somalia & Yemen data
+###############################################
+
+# Adjust the file paths if your files are somewhere else
+somalia_raw <- read_excel("us-strikes-in-somalia-2007-to-present.xlsx",
+                          sheet = "All US actions")
+
+yemen_raw   <- read_excel("us-strikes-in-yemen-2002-to-present (2).xlsx",
+                          sheet = "All US actions")
+
+###############################################
+## 2. Clean & harmonize variables
+###############################################
+
+## 2.1 Somalia
+somalia <- somalia_raw %>%
+  transmute(
+    region        = "Somalia",
+    date          = as.Date(Date),
+    location      = Location,
+    
+    # Drone indicator
+    drone         = if_else(`Drone strike` == 1, 1L, 0L),
+    
+    # US confirmed vs possible
+    us_confirmed  = if_else(`Confirmed/\npossible US strike` == "Confirmed", 1L, 0L),
+    
+    # Strike counts
+    min_strikes   = as.numeric(`Minimum strikes`),
+    max_strikes   = as.numeric(`Maximum strikes`),
+    
+    # Casualty counts
+    min_killed        = as.numeric(`Minimum people killed`),
+    max_killed        = as.numeric(`Maximum people killed`),
+    min_civilians     = as.numeric(`Minimum civilians killed`),
+    max_civilians     = as.numeric(`Maximum civilians killed`),
+    
+    min_children      = as.numeric(`Minimum children killed`),
+    max_children      = as.numeric(`Maximum children killed`),
+    
+    min_injured       = as.numeric(`Minimum people injured`),
+    max_injured       = as.numeric(`Maximum people injured`)
+  )
+
+## 2.2 Yemen
+yemen <- yemen_raw %>%
+  transmute(
+    region        = "Yemen",
+    date          = as.Date(Date),
+    location      = Location,
+    
+    drone         = if_else(`Drone strike` == 1, 1L, 0L),
+    
+    us_confirmed  = if_else(`Confirmed/\npossible US attack?` == "Confirmed", 1L, 0L),
+    
+    min_strikes   = as.numeric(`Minimum number of strikes`),
+    max_strikes   = as.numeric(`Maximum number of strikes`),
+    
+    min_killed        = as.numeric(`Minimum people killed`),
+    max_killed        = as.numeric(`Maximum people killed`),
+    min_civilians     = as.numeric(`Minimum civilians reported killed`),
+    max_civilians     = as.numeric(`Maximum civilians reported killed`),
+    
+    min_children      = as.numeric(`Minimum children reported killed`),
+    max_children      = as.numeric(`Maximum children reported killed`),
+    
+    min_injured       = as.numeric(`Minimum people injured`),
+    max_injured       = as.numeric(`Maximum people injured`)
+  )
+
+###############################################
+## 3. Combine datasets and construct analysis variables
+###############################################
+
+combined <- bind_rows(somalia, yemen) %>%
+  mutate(
+    # Make sure region is a factor and pick the reference category
+    region = factor(region, levels = c("Somalia", "Yemen")),
+    
+    # Basic sanity for strikes & casualties
+    min_strikes = if_else(is.na(min_strikes), 0, min_strikes),
+    max_strikes = if_else(is.na(max_strikes), min_strikes, max_strikes),
+    
+    min_killed  = if_else(is.na(min_killed), 0, min_killed),
+    max_killed  = if_else(is.na(max_killed), min_killed, max_killed),
+    
+    min_civilians = if_else(is.na(min_civilians), 0, min_civilians),
+    max_civilians = if_else(is.na(max_civilians), min_civilians, max_civilians),
+    
+    ########################################
+    ## Main variables for your hypotheses ##
+    ########################################
+    
+    # Civilian casualties (using minimum estimate as the count outcome)
+    civilian_casualties = min_civilians,
+    
+    # Total killed (using minimum estimate)
+    total_killed        = min_killed,
+    
+    # Reporting uncertainty (as you defined)
+    uncertainty_killed  = max_killed - min_killed
+  )
+
+# Optionally restrict to rows with non-missing outcome variables
+combined_model <- combined %>%
+  filter(!is.na(civilian_casualties),
+         !is.na(uncertainty_killed),
+         !is.na(min_strikes),
+         !is.na(total_killed))
+
+###############################################
+## 4. Negative binomial models for hypotheses
+###############################################
+
+# NOTE: we are using negative binomial ONLY (no Poisson).
+
+################################
+## Hypothesis 1: Civilian Harm ##
+################################
+# H0: Somalia and Yemen do not have significantly different civilian casualty rates,
+#     controlling for strike characteristics.
+# H1: They do differ.
+
+model_h1 <- glm.nb(
+  civilian_casualties ~ region + drone + us_confirmed + min_strikes + total_killed,
+  data = combined_model
+)
+
+summary(model_h1)
+tidy(model_h1, exponentiate = TRUE, conf.int = TRUE)  # IRR-style output
+
+##################################
+## Hypothesis 2: Drone Effectiveness ##
+##################################
+# H0: The effect of drone strikes on civilian casualties does NOT differ between Somalia and Yemen.
+# H1: The effect of drone strikes DOES differ between Somalia and Yemen.
+# -> Include interaction term drone:region
+
+model_h2 <- glm.nb(
+  civilian_casualties ~ drone * region + us_confirmed + min_strikes + total_killed,
+  data = combined_model
+)
+
+summary(model_h2)
+tidy(model_h2, exponentiate = TRUE, conf.int = TRUE)
+
+##################################
+## Hypothesis 3: Reporting Uncertainty ##
+##################################
+# H0: The level of uncertainty in casualty reporting does not differ between Somalia and Yemen.
+# H1: It does differ.
+# Outcome: uncertainty_killed
+
+model_h3 <- glm.nb(
+  uncertainty_killed ~ region + drone + us_confirmed + min_strikes,
+  data = combined_model
+)
+
+summary(model_h3)
+tidy(model_h3, exponentiate = TRUE, conf.int = TRUE)
+
+###############################################
+## 5. Optional: quick descriptive checks
+###############################################
+
+# Mean civilian casualties by region & drone status
+combined_model %>%
+  group_by(region, drone) %>%
+  summarise(
+    mean_civilian_casualties = mean(civilian_casualties, na.rm = TRUE),
+    n = n(),
+    .groups = "drop"
+  )
+
+# Mean uncertainty by region
+combined_model %>%
+  group_by(region) %>%
+  summarise(
+    mean_uncertainty = mean(uncertainty_killed, na.rm = TRUE),
+    n = n(),
+    .groups = "drop"
+  )
+
+```
+
+## Results
+
+### Hypothesis 1: Civilian Harm Differences
+
+Strikes in **Yemen** show significantly higher civilian casualties than those in Somalia.\
+The coefficient for Yemen is **1.59** (*p* = 0.0135), corresponding to an IRR of **4.9**, meaning Yemen strikes produce nearly **5×** the civilian casualties of Somalia.\
+Total fatalities are also positively associated with civilian casualties (coef = **0.146**, *p* \< 0.001).\
+**Conclusion:** Civilian harm is significantly higher in Yemen → *H1 supported*.
+
+### Hypothesis 2: Drone Effectiveness by Country
+
+The key interaction term **drone × region (Yemen)** is **not significant** (coef = −0.49, *p* = 0.688).\
+Drone use alone is also not significant (coef = 0.33, *p* = 0.741).\
+**Conclusion:** Drones do not affect civilian casualties differently across countries → *H2 not supported*.
+
+### Hypothesis 3: Reporting Uncertainty
+
+Reporting uncertainty does **not** differ between regions (Yemen coef = −0.16, *p* = 0.538).\
+However, drone strikes show **higher uncertainty** (coef = 0.62, IRR = **1.86**, *p* = 0.013), while confirmed U.S. strikes show **lower uncertainty** (coef = −0.69, IRR = **0.50**, *p* = 0.006).\
+**Conclusion:** No regional difference in uncertainty → *H3 not supported*, though uncertainty varies by strike type.
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+library(dplyr)
+library(ggplot2)
+
+## 1. Mean civilian casualties by region & drone use ----
+
+civ_summary <- combined_model %>%
+group_by(region, drone) %>%
+summarise(
+mean_civilian_casualties = mean(civilian_casualties, na.rm = TRUE),
+n = n(),
+.groups = "drop"
+) %>%
+mutate(
+drone = ifelse(drone == 1, "Drone strike", "Non-drone strike")
+)
+
+ggplot(civ_summary, aes(x = region, y = mean_civilian_casualties, fill = drone)) +
+geom_col(position = position_dodge()) +
+labs(
+title = "Mean Civilian Casualties per Strike",
+x = "Region",
+y = "Mean civilian casualties",
+fill = "Strike type"
+) +
+theme_minimal()
+
+## 2. Distribution of civilian casualties by region ----
+
+ggplot(combined_model, aes(x = region, y = civilian_casualties)) +
+geom_boxplot() +
+labs(
+title = "Distribution of Civilian Casualties by Region",
+x = "Region",
+y = "Civilian casualties (min estimate)"
+) +
+theme_minimal()
+
+## 3. Mean reporting uncertainty by region & drone ----
+
+uncertainty_summary <- combined_model %>%
+group_by(region, drone) %>%
+summarise(
+mean_uncertainty = mean(uncertainty_killed, na.rm = TRUE),
+n = n(),
+.groups = "drop"
+) %>%
+mutate(
+drone = ifelse(drone == 1, "Drone strike", "Non-drone strike")
+)
+
+ggplot(uncertainty_summary, aes(x = region, y = mean_uncertainty, fill = drone)) +
+geom_col(position = position_dodge()) +
+labs(
+title = "Mean Reporting Uncertainty (Max - Min Killed)",
+x = "Region",
+y = "Mean uncertainty in casualties",
+fill = "Strike type"
+) +
+theme_minimal()
+
+```
