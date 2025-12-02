@@ -5,19 +5,19 @@ format: html
 
 ## Team Members:
 
-##  Shanmei Wanyan 
+## Shanmei Wanyan
 
 ## Daniel Dai
 
-##  Keivan Bolouri 
+## Keivan Bolouri
 
-##  Itaru Fukushima 
+## Itaru Fukushima
 
-## Linxue Guo 
+## Linxue Guo
 
 ## Evelyn Isaka
 
-##  Responsibilities
+## Responsibilities
 
 Responsibilities: Poster: Daniel, Keivan
 
