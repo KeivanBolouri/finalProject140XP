@@ -11,7 +11,7 @@ website:
         text: Home
       - href: methods.qmd
         text: Statistical Methods
-      - href: Projects.qmd
+      - href: team.qmd
         text: Team
 
 
