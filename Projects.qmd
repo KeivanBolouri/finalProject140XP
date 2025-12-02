@@ -1,0 +1,12 @@
+---
+title: "Projects"
+format: html
+---
+## Team Members and Responsibilities
+
+
+Responsibilities:
+Poster: Daniel, Keivan
+Presentation: Evelyn, Shanmei
+Report: Shanmei, Keivan, Linxue
+Coding: Itaru, Daniel

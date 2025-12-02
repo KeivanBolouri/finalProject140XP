@@ -1,5 +1,34 @@
 project:
-  title: "ReportProject"
+  type: website
+  resources:
+    - cv.pdf
+
+website:
+  
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: methods.qmd
+        text: Statistical Methods
+      - href: Projects.qmd
+        text: Team
+
+
+
+  page-footer:
+    right: "© 2025 Keivan Bolouri"
+    
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+    toc: true
+
+editor: visual
 
 
 
