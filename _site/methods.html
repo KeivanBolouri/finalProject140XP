@@ -112,8 +112,14 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#methods" id="toc-methods" class="nav-link active" data-scroll-target="#methods">Methods</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -137,8 +143,12 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="methods" class="level2">
+<h2 class="anchored" data-anchor-id="methods">Methods</h2>
+<p>We will use regression models to evaluate the significance of the key parameters in our hypotheses. Because casualty counts are highly dispersed, the primary analytical approach will be the negative binomial regression model, which is well-suited for overdispersed count data. Hypothesis 1: civilian_casualties ~ region + drone + us_confirmed + min_strikes + total_killed Hypothesis 2: civilian_casualties ~ drone + region + drone:region + us_confirmed + min_strikes + total_killed Hypothesis 3: uncertainty_killed ~ region + drone + us_confirmed + min_strikes (uncertainty_killed = max_killed - min_killed)</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
