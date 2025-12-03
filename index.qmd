@@ -25,7 +25,7 @@ We explicitly test three hypotheses:
 
 ### 1.Hypothesis 1: Civilian Harm Difference
 
-To test whether Somalia and Yemen differ in civilian casualty rates, we estimate:\
+To test whether Somalia and Yemen differ in civilian casualty rates.\
 
 ### 2.Hypothesis 2: Drone Effectiveness Across Countries
 
@@ -33,7 +33,7 @@ To test whether the impact of drone strikes differs between Somalia and Yemen, w
 
 ### 3.Hypothesis 3: Reporting Uncertainty
 
-To assess whether casualty reporting uncertainty differs between regions, we model the uncertainty metric:
+To assess whether casualty reporting uncertainty differs between regions.
 
 To investigate these hypotheses, we assemble a comprehensive dataset of U.S. counterterrorism strikes in Yemen and Somalia, drawn from independent monitoring organizations such as the Bureau of Investigative Journalism \[1\]. Because casualty counts are uncertain, our data use minimum–maximum ranges \[1\]. Given that casualty outcomes are over-dispersed count data, we employ **negative binomial regression** to model civilian casualties while controlling for strike features. This approach allows us to test whether “country” remains a significant factor in humanitarian outcomes once strike type and context are accounted for.
 
