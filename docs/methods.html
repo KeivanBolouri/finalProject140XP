@@ -252,8 +252,59 @@ window.Quarto = {
 <strong>H₁:</strong> Civilian casualty rates differ between Somalia and Yemen.</p>
 <p>To test whether Somalia and Yemen differ in civilian casualty rates, we estimate:</p>
 <p><span class="math display">\[
-\text{civilian\_casualties} \sim \text{region} + \text{drone} + \text{us\_confirmed} + \text{min\_strikes} + \text{total\_killed}
+\begin{aligned}
+E(\text{civilian casualties}) = {} &amp;
+\beta_0
++ \beta_1(\text{region})
++ \beta_2(\text{drone})
++ \beta_3(\text{US confirmed})
++ \beta_4(\text{minimum strikes}) \\
+&amp; + \beta_5(\text{total killed})
+\end{aligned}
 \]</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Variable Definitions</caption>
+<colgroup>
+<col style="width: 22%">
+<col style="width: 77%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Civilian casualties</td>
+<td style="text-align: left;">Number of civilians reported killed in the strike (outcome variable).</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Region</td>
+<td style="text-align: left;">Country where the strike occurred (Somalia or Yemen).</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Drone</td>
+<td style="text-align: left;">Indicates whether the strike was carried out by a drone (1 = drone).</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">US confirmed</td>
+<td style="text-align: left;">Whether the strike was officially confirmed by the U.S. government.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Minimum strikes</td>
+<td style="text-align: left;">Minimum number of strike events associated with the record.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Total killed</td>
+<td style="text-align: left;">Minimum number of total fatalities (civilians + militants).</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div style="height:0.1in;">
 
 </div>
@@ -629,7 +680,7 @@ However, drone strikes show <strong>higher uncertainty</strong> (coef = 0.62, IR
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="methods_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="methods_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -638,7 +689,7 @@ However, drone strikes show <strong>higher uncertainty</strong> (coef = 0.62, IR
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="methods_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="methods_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -654,7 +705,7 @@ However, drone strikes show <strong>higher uncertainty</strong> (coef = 0.62, IR
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="methods_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="methods_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -663,7 +714,7 @@ However, drone strikes show <strong>higher uncertainty</strong> (coef = 0.62, IR
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="methods_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="methods_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -675,7 +726,7 @@ However, drone strikes show <strong>higher uncertainty</strong> (coef = 0.62, IR
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="methods_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="methods_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -684,7 +735,7 @@ However, drone strikes show <strong>higher uncertainty</strong> (coef = 0.62, IR
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="methods_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="methods_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>

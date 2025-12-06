@@ -143,8 +143,37 @@ combined_model <- combined %>%
 To test whether Somalia and Yemen differ in civilian casualty rates, we estimate:
 
 $$
-\text{civilian\_casualties} \sim \text{region} + \text{drone} + \text{us\_confirmed} + \text{min\_strikes} + \text{total\_killed}
+\begin{aligned}
+E(\text{civilian casualties}) = {} &
+\beta_0 
++ \beta_1(\text{region}) 
++ \beta_2(\text{drone}) 
++ \beta_3(\text{US confirmed}) 
++ \beta_4(\text{minimum strikes}) \\
+& + \beta_5(\text{total killed})
+\end{aligned}
 $$
+
+```{r}
+#| echo: false
+
+library(knitr)
+
+vars <- data.frame(
+  Variable = c("Civilian casualties", "Region", "Drone", "US confirmed",
+               "Minimum strikes", "Total killed"),
+  Description = c(
+    "Number of civilians reported killed in the strike (outcome variable).",
+    "Country where the strike occurred (Somalia or Yemen).",
+    "Indicates whether the strike was carried out by a drone (1 = drone).",
+    "Whether the strike was officially confirmed by the U.S. government.",
+    "Minimum number of strike events associated with the record.",
+    "Minimum number of total fatalities (civilians + militants)."
+  )
+)
+
+kable(vars, caption = "Variable Definitions")
+```
 
 ::: {style="height:0.1in;"}
 :::
