@@ -14,7 +14,7 @@ website:
       - href: team.qmd
         text: Team
       - href: Example.qmd
-        text: Create PDF Report
+        text: Download Report
 
 
   page-footer:

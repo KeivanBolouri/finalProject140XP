@@ -266,10 +266,12 @@ To verify whether a Poisson model was appropriate for our outcome variable, we f
 
 ### Poisson dispersion test
 
+$$
 \begin{aligned}
-H_0 &: \text{dispersion} = 1 \quad \text{(Poisson model is adequate)}, \\
-H_1 &: \text{dispersion} > 1 \quad \text{(overdispersion present)}.
+H_0 &: \text{dispersion} = 1 \quad (\text{Poisson adequate})\\
+H_a &: \text{dispersion} > 1 \quad (\text{overdispersion})
 \end{aligned}
+$$
 
 **\
 **
@@ -284,7 +286,8 @@ library(AER)   # for dispersiontest
 
 # Poisson version of H1 model
 pois_h1 <- glm(
-  civilian_casualties ~ region + drone + us_confirmed + min_strikes + total_killed,
+  civilian_casualties ~ region + drone + us_confirmed + 
+    min_strikes + total_killed,
   family = poisson(link = "log"),
   data = combined_model
 )
@@ -314,7 +317,9 @@ Consequently, we use negative binomial regression, which relaxes the equidispers
 
 \
 
-## Test for Hypothesis 1
+# Statistical Testing
+
+**Hypothesis Test 1**
 
 ```{r}
 #| error: false
@@ -737,10 +742,6 @@ ggplot(newdata_h2, aes(x = drone_label, y = pred_civ, color = region, group = re
 ```
 
 ## Visualization of H3
-
-```{r}
-
-```
 
 ```{r}
 #| include: false

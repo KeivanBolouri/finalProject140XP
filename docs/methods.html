@@ -195,10 +195,10 @@ window.Quarto = {
   <li><a href="#model-selection" id="toc-model-selection" class="nav-link" data-scroll-target="#model-selection">Model selection</a>
   <ul class="collapse">
   <li><a href="#poisson-dispersion-test" id="toc-poisson-dispersion-test" class="nav-link" data-scroll-target="#poisson-dispersion-test">Poisson dispersion test</a></li>
-  <li><a href="#test-for-hypothesis-1" id="toc-test-for-hypothesis-1" class="nav-link" data-scroll-target="#test-for-hypothesis-1">Test for Hypothesis 1</a>
+  </ul></li>
+  <li><a href="#statistical-testing" id="toc-statistical-testing" class="nav-link" data-scroll-target="#statistical-testing">Statistical Testing</a>
   <ul class="collapse">
   <li><a href="#rsult-for-hypothesis-1-civilian-harm-differences" id="toc-rsult-for-hypothesis-1-civilian-harm-differences" class="nav-link" data-scroll-target="#rsult-for-hypothesis-1-civilian-harm-differences">Rsult for Hypothesis 1: Civilian Harm Differences</a></li>
-  </ul></li>
   <li><a href="#test-for-hypothesis-2" id="toc-test-for-hypothesis-2" class="nav-link" data-scroll-target="#test-for-hypothesis-2">Test for Hypothesis 2</a></li>
   <li><a href="#result-for-hypothesis-2-drone-effectiveness-by-country" id="toc-result-for-hypothesis-2-drone-effectiveness-by-country" class="nav-link" data-scroll-target="#result-for-hypothesis-2-drone-effectiveness-by-country">Result for Hypothesis 2: Drone Effectiveness by Country</a></li>
   <li><a href="#test-for-hypothesis-3" id="toc-test-for-hypothesis-3" class="nav-link" data-scroll-target="#test-for-hypothesis-3">Test for Hypothesis 3</a>
@@ -390,10 +390,12 @@ Showt that our data is overdispersion: <span class="math inline">\(E(x) &lt; \ma
 To verify whether a Poisson model was appropriate for our outcome variable, we formally tested for overdispersion. We first fit a Poisson regression using civilian casualties as the count outcome and calculated the dispersion statistic by dividing the residual deviance by the residual degrees of freedom.</p>
 <section id="poisson-dispersion-test" class="level3">
 <h3 class="anchored" data-anchor-id="poisson-dispersion-test">Poisson dispersion test</h3>
-<span class="math display">\[\begin{aligned}
-H_0 &amp;: \text{dispersion} = 1 \quad \text{(Poisson model is adequate)}, \\
-H_1 &amp;: \text{dispersion} &gt; 1 \quad \text{(overdispersion present)}.
-\end{aligned}\]</span>
+<p><span class="math display">\[
+\begin{aligned}
+H_0 &amp;: \text{dispersion} = 1 \quad (\text{Poisson adequate})\\
+H_a &amp;: \text{dispersion} &gt; 1 \quad (\text{overdispersion})
+\end{aligned}
+\]</span></p>
 <p><strong><br>
 </strong></p>
 <div class="cell">
@@ -402,14 +404,15 @@ H_1 &amp;: \text{dispersion} &gt; 1 \quad \text{(overdispersion present)}.
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Poisson version of H1 model</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>pois_h1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  civilian_casualties <span class="sc">~</span> region <span class="sc">+</span> drone <span class="sc">+</span> us_confirmed <span class="sc">+</span> min_strikes <span class="sc">+</span> total_killed,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>),</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> combined_model</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 3a. Quick dispersion estimate: residual deviance / df</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>dispersion_est <span class="ot">&lt;-</span> pois_h1<span class="sc">$</span>deviance <span class="sc">/</span> pois_h1<span class="sc">$</span>df.residual</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>dispersion_est</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  civilian_casualties <span class="sc">~</span> region <span class="sc">+</span> drone <span class="sc">+</span> us_confirmed <span class="sc">+</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    min_strikes <span class="sc">+</span> total_killed,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> combined_model</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3a. Quick dispersion estimate: residual deviance / df</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>dispersion_est <span class="ot">&lt;-</span> pois_h1<span class="sc">$</span>deviance <span class="sc">/</span> pois_h1<span class="sc">$</span>df.residual</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>dispersion_est</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.945971</code></pre>
 </div>
@@ -437,8 +440,10 @@ Consequently, we use negative binomial regression, which relaxes the equidispers
 <p><br>
 </p>
 </section>
-<section id="test-for-hypothesis-1" class="level2">
-<h2 class="anchored" data-anchor-id="test-for-hypothesis-1">Test for Hypothesis 1</h2>
+</section>
+<section id="statistical-testing" class="level1">
+<h1>Statistical Testing</h1>
+<p><strong>Hypothesis Test 1</strong></p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
@@ -517,7 +522,6 @@ Warning while fitting theta: alternation limit reached
 The coefficient for Yemen is <strong>1.59</strong> (<em>p</em> = 0.0135), corresponding to an IRR of <strong>4.9</strong>, meaning Yemen strikes produce nearly <strong>5×</strong> the civilian casualties of Somalia.<br>
 Total fatalities are also positively associated with civilian casualties (coef = <strong>0.146</strong>, <em>p</em> &lt; 0.001).<br>
 <strong>Conclusion:</strong> Civilian harm is significantly higher in Yemen → <em>H1 supported</em></p>
-</section>
 </section>
 <section id="test-for-hypothesis-2" class="level2" style="height:0.1in;">
 <h2 class="anchored" data-anchor-id="test-for-hypothesis-2">Test for Hypothesis 2</h2>
@@ -752,7 +756,7 @@ However, drone strikes show <strong>higher uncertainty</strong> (coef = 0.62, IR
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="methods_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="methods_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -761,7 +765,7 @@ However, drone strikes show <strong>higher uncertainty</strong> (coef = 0.62, IR
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="methods_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="methods_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>

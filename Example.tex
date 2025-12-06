@@ -131,6 +131,11 @@
 \def\fps@figure{htbp}
 \makeatother
 
+\usepackage{titling}
+\pretitle{\vspace*{-3cm}\begin{center}\bfseries\Huge}
+\posttitle{\end{center}}
+\predate{\begin{center}\large}
+\postdate{\end{center}}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
@@ -178,10 +183,7 @@
 \usepackage{calc}
 \usepackage{calculator}
 
-\usepackage{graphicx}
-\usepackage{wallpaper}
 
-\usepackage{geometry}
 
 \usepackage{graphicx}
 \usepackage{geometry}
@@ -223,7 +225,7 @@ and Yemen}
 \subtitle{Assessing Humanitarian Impact with Count Regression Models.}
 \author{Shanmei Wanyan \and Daniel Dai \and Keivan Bolouri \and Itaru
 Fukushima \and Linxue Guo \and Evelyn Isaka}
-\date{}
+\date{Invalid Date}
 \begin{document}
 %%%%% begin titlepage extension code
 
@@ -244,22 +246,22 @@ Fukushima \and Linxue Guo \and Evelyn Isaka}
 
 \newcommand{\titleandsubtitle}{
 % Title and subtitle
-{{\large{\bfseries{\nohyphens{Civilian Impact of U.S. Drone
-vs.~Non-Drone Strikes in Somalia and Yemen}}}}\par
+{{\Large{\nohyphens{Civilian Impact of U.S. Drone vs.~Non-Drone Strikes
+in Somalia and Yemen}}}\par
 }%
 
 \vspace{\betweentitlesubtitle}
 {
-{\large{\textit{\nohyphens{Assessing Humanitarian Impact with Count
-Regression Models.}}}}\par
+{\textit{\nohyphens{Assessing Humanitarian Impact with Count Regression
+Models.}}}\par
 }}
 \newcommand{\titlepagetitleblock}{
 \titleandsubtitle
 }
 
-\newcommand{\authorstyle}[1]{{\large{#1}}}
+\newcommand{\authorstyle}[1]{{#1}}
 
-\newcommand{\affiliationstyle}[1]{{\large{#1}}}
+\newcommand{\affiliationstyle}[1]{{#1}}
 
 \newcommand{\titlepageauthorblock}{
 {\authorstyle{\nohyphens{Shanmei
@@ -282,15 +284,14 @@ Data Science,~8125 Math Sciences Bldg, Los Angeles, CA 90095
 }}
 }
 \newcommand{\headerstyled}{%
-{The Publisher}
+{}
 }
 \newcommand{\footerstyled}{%
-{\large{NOAA Fisheries OpenSci\\
-Tools for Open Science\\
-\url{https://keivanbolouri.github.io/finalProject140XP/}\strut \\}}
+{STATS 140XP -- Practice of Statistical Consulting, Fall 2025
+\url{https://keivanbolouri.github.io/finalProject140XP/}\\}
 }
 \newcommand{\datestyled}{%
-{}
+{Invalid Date}
 }
 
 
@@ -306,7 +307,7 @@ Tools for Open Science\\
 
 %set up blocks so user can specify order
 \newcommand{\titleblock}{\newlength{\betweentitlesubtitle}
-\setlength{\betweentitlesubtitle}{\baselineskip}
+\setlength{\betweentitlesubtitle}{1pt}
 {
 
 {\titlepagetitleblock}
@@ -322,12 +323,12 @@ Tools for Open Science\\
 
 \newcommand{\affiliationblock}{{\titlepageaffiliationblock}
 
-\vspace{1pt}
+\vspace{2\baselineskip}
 }
 
-\newcommand{\logoblock}{{\includegraphics[width=0.25\textheight]{img/logo.png}}
+\newcommand{\logoblock}{{\includegraphics[width=0.1\textheight]{img/logo.png}}
 
-\vspace{2\baselineskip}
+\vspace{1\baselineskip}
 }
 
 \newcommand{\footerblock}{{\titlepagefooterblock}
@@ -335,46 +336,25 @@ Tools for Open Science\\
 \vspace{1pt}
 }
 
-\newcommand{\dateblock}{}
-
-\newcommand{\headerblock}{{\titlepageheaderblock
+\newcommand{\dateblock}{{\titlepagedateblock}
 
 \vspace{0pt}
-}}
-\newgeometry{top=3in,bottom=1in,right=1in,left=1in}
-% background image
-\newlength{\bgimagesize}
-\setlength{\bgimagesize}{0.5\paperwidth}
-\LENGTHDIVIDE{\bgimagesize}{\paperwidth}{\theRatio} % from calculator pkg
-\ThisULCornerWallPaper{\theRatio}{img/corner-bg.png}
+}
+
+\newcommand{\headerblock}{}
 
 \thispagestyle{empty} % no page numbers on titlepages
 
 
-\newcommand{\vrulecode}{\textcolor{black}{\rule{\vrulewidth}{\textheight}}}
-\newlength{\vrulewidth}
-\setlength{\vrulewidth}{1pt}
-\newlength{\B}
-\setlength{\B}{\ifdim\vrulewidth > 0pt 0.05\textwidth\else 0pt\fi}
 \newlength{\minipagewidth}
-\ifthenelse{\equal{left}{left} \OR \equal{left}{right} }
-{% True case
-\setlength{\minipagewidth}{\textwidth - \vrulewidth - \B - 0.1\textwidth}
-}{
-\setlength{\minipagewidth}{\textwidth - 2\vrulewidth - 2\B - 0.1\textwidth}
-}
-\ifthenelse{\equal{left}{left} \OR \equal{left}{leftright}}
-{% True case
-\raggedleft % needed for the minipage to work
-\vrulecode
-\hspace{\B}
-}{%
-\raggedright % else it is right only and width is not 0
-}
+\setlength{\minipagewidth}{\textwidth}
+\raggedright % single minipage
 % [position of box][box height][inner position]{width}
 % [s] means stretch out vertically; assuming there is a vfill
 \begin{minipage}[b][\textheight][s]{\minipagewidth}
 \titlepagepagealign
+\headerblock
+
 \titleblock
 
 \authorblock
@@ -388,11 +368,10 @@ Tools for Open Science\\
 \footerblock
 \par
 
-\end{minipage}\ifthenelse{\equal{left}{right} \OR \equal{left}{leftright} }{
+\end{minipage}\ifthenelse{\equal{}{right} \OR \equal{}{leftright} }{
 \hspace{\B}
 \vrulecode}{}
 \clearpage
-\restoregeometry
 %%% TITLE PAGE END
 \end{titlepage}
 \setcounter{page}{1}
@@ -549,13 +528,133 @@ Using negative binomial regression, we test whether the countries differ
 in civilian casualty rates and the uncertainty of reported casualties,
 controlling for strike characteristics.
 
+\chapter{Data Processing}\label{data-processing}
+
+\subsection{Data Import and Cleaning}\label{data-import-and-cleaning}
+
+The dataset combines information on U.S. counterterrorism strikes in
+\textbf{Somalia} and \textbf{Yemen}, spanning Somalia (2007--present)
+and Yemen (2002--present). These data were originally compiled by
+investigative journalists tracking U.S. drone and air strikes, including
+casualties. In particular, the source appears to be the \textbf{Bureau
+of Investigative Journalism (TBIJ)}, which maintains detailed records of
+U.S. strikes in those
+countries\href{https://www.defensepriorities.org/explainers/end-us-military-support-for-the-saudi-led-war-in-yemen/\#:~:text=peaked\%20in\%202017\%2C\%20with\%20more,war\%2Fyemen}{{[}7{]}}.
+Each country's data was provided in a separate Excel worksheet (titled
+\emph{``All US actions''} for Somalia and Yemen respectively),
+containing reported strike dates, locations, strike types, and casualty
+counts (with minimum and maximum estimates).
+
+\subsection{Data Import and Cleaning}\label{data-import-and-cleaning-1}
+
+\hfill\break
+We imported two Excel datasets using \texttt{read\_excel()} in R:
+
+\textbf{Somalia:} \texttt{us-strikes-in-somalia-2007-to-present.xls}
+
+\textbf{Yemen:} \texttt{us-strikes-in-yemen-2002-to-present.xlsx}\\
+Each file was read from the ``All US actions'' sheet into
+\texttt{somalia\_raw} and \texttt{yemen\_raw}.
+
+Using \texttt{dplyr::transmute()}, we extracted and standardized key
+variables to match across datasets. This included:
+
+Assigning a \texttt{region} label (Somalia or Yemen)
+
+\begin{itemize}
+\item
+  Converting \texttt{Date} fields to proper date format
+
+  Creating indicators for drone strikes (\texttt{drone}) and U.S.
+  confirmation (\texttt{us\_confirmed})
+
+  Harmonizing strike and casualty counts (\texttt{min\_}/\texttt{max\_}
+  values for killed, civilians, children, and injured)
+\end{itemize}
+
+These transformations produced two cleaned data frames with identical
+structures, enabling easy merging.
+
+\subsection{Combining and Preparing the
+Dataset}\label{combining-and-preparing-the-dataset}
+
+To support hypothesis testing, we created three key analytical variables
+from the cleaned and combined dataset. \texttt{civilian\_casualties}
+represents the minimum number of civilians killed per strike, using the
+\texttt{min\_civilians} field as a conservative estimate.
+\texttt{total\_killed} captures the minimum total fatalities
+(\texttt{min\_killed}) for each incident, providing a standardized
+baseline for analysis. \texttt{uncertainty\_killed} quantifies reporting
+uncertainty by calculating the difference between \texttt{max\_killed}
+and \texttt{min\_killed}. These derived variables help assess both the
+scale of violence and the variability in casualty reporting across
+strikes and regions. All three were added to the dataset and are ready
+for descriptive analysis.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1026}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3205}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2308}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.3462}}@{}}
+\caption{Summary of Key Derived Variables by Region}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Region
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Avg. Civilian Casualties
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Avg. Total Killed
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Avg. Reporting Uncertainty
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Region
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Avg. Civilian Casualties
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Avg. Total Killed
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Avg. Reporting Uncertainty
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Somalia & 0.08 & 6.54 & 1.56 \\
+Yemen & 0.64 & 4.67 & 1.84 \\
+\end{longtable}
+
+\subsection{Finalizing the Dataset for
+Analysis}\label{finalizing-the-dataset-for-analysis}
+
+The last step shown is the creation of \texttt{combined\_model}, which
+is a filtered version of the data ready for modeling or statistical
+analysis. Here we \textbf{restrict to complete cases} for the key
+outcome variables of interest. The code
+\texttt{filter(!is.na(civilian\_casualties),\ !is.na(uncertainty\_killed),\ !is.na(min\_strikes),\ !is.na(total\_killed))}
+removes any strikes that still have missing values in those crucial
+fields.
+
+In practice, because we already replaced NAs with 0 or other values for
+most of these, there may be very few records dropped. However, this
+filter is a safety measure to ensure that the modeling dataset doesn't
+include any undefined values. For example, if a particular entry had an
+entirely missing civilian casualty field in the raw data (and somehow
+our earlier replacement didn't catch it), or if any event lacks data on
+number of strikes or total killed, it will be excluded. The end result
+\texttt{combined\_model} contains only strikes with valid
+\texttt{civilian\_casualties}, \texttt{total\_killed},
+\texttt{uncertainty\_killed}, and \texttt{min\_strikes} values. This
+will be the dataset used in subsequent analysis and hypothesis testing.
+
 \chapter{Methods}\label{methods}
 
 \section{Statistical Methods}\label{statistical-methods}
 
 \subsection{Hypothesis Tests}\label{hypothesis-tests}
-
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \subsection{\texorpdfstring{\textbf{Hypothesis 1: Civilian Harm
 Difference}}{Hypothesis 1: Civilian Harm Difference}}\label{hypothesis-1-civilian-harm-difference}
@@ -647,10 +746,6 @@ E(\text{civilian casualties}) = {} &
 \subsection{\texorpdfstring{\textbf{Hypothesis 3: Reporting Uncertainty
 Difference}}{Hypothesis 3: Reporting Uncertainty Difference}}\label{hypothesis-3-reporting-uncertainty-difference}
 
-\textbf{H0:} Reporting uncertainty does not differ between Somalia and
-Yemen.\\
-\textbf{H1:} Reporting uncertainty differs between Somalia and Yemen.
-
 \[
 \begin{aligned}
 H_{0}: &\ \text{Reporting uncertainty does not differ between Somalia and Yemen.} \\
@@ -710,18 +805,503 @@ civilian harm.
 0.4338521 8.0043879 
 \end{verbatim}
 
+Showt that our data is overdispersion: \(E(x) < \mathrm{Var}(x)\)
+
+In our combined Somalia--Yemen dataset, civilian casualties have a mean
+of \textbf{0.43} and a variance of \textbf{8.00}, so the variance is
+about \textbf{18 times} larger than the mean. This large
+variance-to-mean ratio indicates substantial overdispepersion.
+
+\hfill\break
+To verify whether a Poisson model was appropriate for our outcome
+variable, we formally tested for overdispersion. We first fit a Poisson
+regression using civilian casualties as the count outcome and calculated
+the dispersion statistic by dividing the residual deviance by the
+residual degrees of freedom.
+
+\subsection{Poisson dispersion test}\label{poisson-dispersion-test}
+
+\[
+\begin{aligned}
+H_0 &: \text{dispersion} = 1 \quad (\text{Poisson adequate})\\
+H_a &: \text{dispersion} > 1 \quad (\text{overdispersion})
+\end{aligned}
+\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(MASS)}
+\FunctionTok{library}\NormalTok{(AER)   }\CommentTok{\# for dispersiontest}
+
+\CommentTok{\# Poisson version of H1 model}
+\NormalTok{pois\_h1 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(}
+\NormalTok{  civilian\_casualties }\SpecialCharTok{\textasciitilde{}}\NormalTok{ region }\SpecialCharTok{+}\NormalTok{ drone }\SpecialCharTok{+}\NormalTok{ us\_confirmed}
+  \SpecialCharTok{+}\NormalTok{ min\_strikes }\SpecialCharTok{+}\NormalTok{ total\_killed,}
+  \AttributeTok{family =} \FunctionTok{poisson}\NormalTok{(}\AttributeTok{link =} \StringTok{"log"}\NormalTok{),}
+  \AttributeTok{data =}\NormalTok{ combined\_model}
+\NormalTok{)}
+
+\CommentTok{\# 3a. Quick dispersion estimate: residual deviance / df}
+\NormalTok{dispersion\_est }\OtherTok{\textless{}{-}}\NormalTok{ pois\_h1}\SpecialCharTok{$}\NormalTok{deviance }\SpecialCharTok{/}\NormalTok{ pois\_h1}\SpecialCharTok{$}\NormalTok{df.residual}
+\NormalTok{dispersion\_est}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 1.945971
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 3b. Formal test}
+\FunctionTok{dispersiontest}\NormalTok{(pois\_h1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Overdispersion test
+
+data:  pois_h1
+z = 2.3989, p-value = 0.008222
+alternative hypothesis: true dispersion is greater than 1
+sample estimates:
+dispersion 
+  11.36617 
+\end{verbatim}
+
+The resulting value of approximately \textbf{1.95} already suggested
+that the variance in the data was nearly twice as large as the Poisson
+model allows. We then conducted a formal \textbf{overdispersion test}
+using \texttt{dispersiontest()} from the \emph{AER} package. The test
+returned a z-value of \textbf{2.40} with a p-value of \textbf{0.008},
+indicating statistically significant overdispersion. In other words, the
+Poisson assumption that the mean equals the variance is violated.
+Because the data exhibit much greater variability than the Poisson model
+can accommodate, this test confirms that a \textbf{negative binomial
+regression}---which includes an additional.
+
+Consequently, we use negative binomial regression, which relaxes the
+equidispersion assumption and is more appropriate for these data.
+
+\chapter{Statistical Testing}\label{statistical-testing}
+
+\textbf{Hypothesis Test 1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(stringr)}
+\FunctionTok{library}\NormalTok{(MASS)}
+\FunctionTok{library}\NormalTok{(broom)}
+
+
+
+\NormalTok{model\_h1 }\OtherTok{\textless{}{-}} \FunctionTok{glm.nb}\NormalTok{(}
+\NormalTok{  civilian\_casualties }\SpecialCharTok{\textasciitilde{}}\NormalTok{ region }
+  \SpecialCharTok{+}\NormalTok{ drone }\SpecialCharTok{+}\NormalTok{ us\_confirmed }\SpecialCharTok{+}\NormalTok{ min\_strikes }\SpecialCharTok{+}\NormalTok{ total\_killed,}
+  \AttributeTok{data =}\NormalTok{ combined\_model}
+\NormalTok{)}
+
+\FunctionTok{summary}\NormalTok{(model\_h1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+glm.nb(formula = civilian_casualties ~ region + drone + us_confirmed + 
+    min_strikes + total_killed, data = combined_model, init.theta = 0.04945140151, 
+    link = log)
+
+Coefficients:
+             Estimate Std. Error z value Pr(>|z|)    
+(Intercept)  -2.08959    1.02564  -2.037   0.0416 *  
+regionYemen   1.59150    0.64403   2.471   0.0135 *  
+drone        -0.00298    0.58431  -0.005   0.9959    
+us_confirmed -0.19350    0.56118  -0.345   0.7302    
+min_strikes  -1.02747    0.68030  -1.510   0.1310    
+total_killed  0.14571    0.01948   7.481 7.39e-14 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for Negative Binomial(0.0495) family taken to be 1)
+
+    Null deviance: 143.44  on 513  degrees of freedom
+Residual deviance: 107.17  on 508  degrees of freedom
+AIC: 469.8
+
+Number of Fisher Scoring iterations: 1
+
+              Theta:  0.0495 
+          Std. Err.:  0.0102 
+Warning while fitting theta: alternation limit reached 
+
+ 2 x log-likelihood:  -455.8010 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{tidy}\NormalTok{(model\_h1, }\AttributeTok{exponentiate =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{)  }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 6 x 7
+  term         estimate std.error statistic  p.value conf.low conf.high
+  <chr>           <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
+1 (Intercept)     0.124    1.03    -2.04    4.16e- 2   0.0185      1.21
+2 regionYemen     4.91     0.644    2.47    1.35e- 2   1.57       15.6 
+3 drone           0.997    0.584   -0.00510 9.96e- 1   0.326       2.80
+4 us_confirmed    0.824    0.561   -0.345   7.30e- 1   0.246       2.40
+5 min_strikes     0.358    0.680   -1.51    1.31e- 1   0.0657      1.03
+6 total_killed    1.16     0.0195   7.48    7.39e-14  NA          NA   
+\end{verbatim}
+
+\subsection{Rsult for Hypothesis 1: Civilian Harm
+Differences}\label{rsult-for-hypothesis-1-civilian-harm-differences}
+
+Strikes in \textbf{Yemen} show significantly higher civilian casualties
+than those in Somalia.\\
+The coefficient for Yemen is \textbf{1.59} (\emph{p} = 0.0135),
+corresponding to an IRR of \textbf{4.9}, meaning Yemen strikes produce
+nearly \textbf{5×} the civilian casualties of Somalia.\\
+Total fatalities are also positively associated with civilian casualties
+(coef = \textbf{0.146}, \emph{p} \textless{} 0.001).\\
+\textbf{Conclusion:} Civilian harm is significantly higher in Yemen →
+\emph{H1 supported}
+
+\textbf{Hypothesis Test 2}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model\_h2 }\OtherTok{\textless{}{-}} \FunctionTok{glm.nb}\NormalTok{(}
+\NormalTok{  civilian\_casualties }\SpecialCharTok{\textasciitilde{}}\NormalTok{ drone }\SpecialCharTok{*}\NormalTok{ region }\SpecialCharTok{+}
+\NormalTok{    us\_confirmed }\SpecialCharTok{+}\NormalTok{ min\_strikes }\SpecialCharTok{+}\NormalTok{ total\_killed,}
+  \AttributeTok{data =}\NormalTok{ combined\_model}
+\NormalTok{)}
+
+\FunctionTok{summary}\NormalTok{(model\_h2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+glm.nb(formula = civilian_casualties ~ drone * region + us_confirmed + 
+    min_strikes + total_killed, data = combined_model, init.theta = 0.04963878986, 
+    link = log)
+
+Coefficients:
+                  Estimate Std. Error z value Pr(>|z|)    
+(Intercept)       -2.15732    1.03711  -2.080   0.0375 *  
+drone              0.33091    1.00164   0.330   0.7411    
+regionYemen        1.80725    0.83212   2.172   0.0299 *  
+us_confirmed      -0.21220    0.55986  -0.379   0.7047    
+min_strikes       -1.02119    0.66922  -1.526   0.1270    
+total_killed       0.14319    0.01965   7.288 3.14e-13 ***
+drone:regionYemen -0.49367    1.22774  -0.402   0.6876    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for Negative Binomial(0.0496) family taken to be 1)
+
+    Null deviance: 143.81  on 513  degrees of freedom
+Residual deviance: 107.26  on 507  degrees of freedom
+AIC: 471.63
+
+Number of Fisher Scoring iterations: 1
+
+              Theta:  0.0496 
+          Std. Err.:  0.0103 
+Warning while fitting theta: alternation limit reached 
+
+ 2 x log-likelihood:  -455.6270 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{tidy}\NormalTok{(model\_h2, }\AttributeTok{exponentiate =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 7 x 7
+  term              estimate std.error statistic  p.value conf.low conf.high
+  <chr>                <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
+1 (Intercept)          0.116    1.04      -2.08  3.75e- 2   0.0171      1.14
+2 drone                1.39     1.00       0.330 7.41e- 1   0.215      11.5 
+3 regionYemen          6.09     0.832      2.17  2.99e- 2   1.38       32.8 
+4 us_confirmed         0.809    0.560     -0.379 7.05e- 1   0.241       2.36
+5 min_strikes          0.360    0.669     -1.53  1.27e- 1   0.0671      1.02
+6 total_killed         1.15     0.0196     7.29  3.14e-13  NA          NA   
+7 drone:regionYemen    0.610    1.23      -0.402 6.88e- 1   0.0500      5.87
+\end{verbatim}
+
+\subsection{Result for Hypothesis 2: Drone Effectiveness by
+Country}\label{result-for-hypothesis-2-drone-effectiveness-by-country}
+
+The key interaction term \textbf{drone × region (Yemen)} is \textbf{not
+significant} (coef = −0.49, \emph{p} = 0.688).\\
+Drone use alone is also not significant (coef = 0.33, \emph{p} =
+0.741).\\
+\textbf{Conclusion:} Drones do not affect civilian casualties
+differently across countries → \emph{H2 not supported}.
+
+\textbf{Hypothesis Test 3}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{model\_h3 }\OtherTok{\textless{}{-}} \FunctionTok{glm.nb}\NormalTok{(}
+\NormalTok{  uncertainty\_killed }\SpecialCharTok{\textasciitilde{}}\NormalTok{ region }\SpecialCharTok{+} 
+\NormalTok{    drone }\SpecialCharTok{+}\NormalTok{ us\_confirmed }\SpecialCharTok{+}\NormalTok{ min\_strikes,}
+  \AttributeTok{data =}\NormalTok{ combined\_model}
+\NormalTok{)}
+\FunctionTok{summary}\NormalTok{(model\_h3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+glm.nb(formula = uncertainty_killed ~ region + drone + us_confirmed + 
+    min_strikes, data = combined_model, init.theta = 0.2157180244, 
+    link = log)
+
+Coefficients:
+             Estimate Std. Error z value Pr(>|z|)   
+(Intercept)   0.64763    0.30943   2.093  0.03635 * 
+regionYemen  -0.16294    0.26446  -0.616  0.53781   
+drone         0.61827    0.24966   2.476  0.01327 * 
+us_confirmed -0.69343    0.25255  -2.746  0.00604 **
+min_strikes   0.08520    0.05284   1.612  0.10687   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for Negative Binomial(0.2157) family taken to be 1)
+
+    Null deviance: 400.69  on 513  degrees of freedom
+Residual deviance: 385.48  on 509  degrees of freedom
+AIC: 1571.1
+
+Number of Fisher Scoring iterations: 1
+
+              Theta:  0.2157 
+          Std. Err.:  0.0218 
+
+ 2 x log-likelihood:  -1559.1480 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{tidy}\NormalTok{(model\_h3, }\AttributeTok{exponentiate =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 5 x 7
+  term         estimate std.error statistic p.value conf.low conf.high
+  <chr>           <dbl>     <dbl>     <dbl>   <dbl>    <dbl>     <dbl>
+1 (Intercept)     1.91     0.309      2.09  0.0363     1.13      3.34 
+2 regionYemen     0.850    0.264     -0.616 0.538      0.536     1.33 
+3 drone           1.86     0.250      2.48  0.0133     1.18      2.91 
+4 us_confirmed    0.500    0.253     -2.75  0.00604    0.305     0.793
+5 min_strikes     1.09     0.0528     1.61  0.107      0.990     1.28 
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{combined\_model }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(region, drone) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}
+    \AttributeTok{mean\_civilian\_casualties =} \FunctionTok{mean}\NormalTok{(civilian\_casualties, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{),}
+    \AttributeTok{n =} \FunctionTok{n}\NormalTok{(),}
+    \AttributeTok{.groups =} \StringTok{"drop"}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 4 x 4
+  region  drone mean_civilian_casualties     n
+  <fct>   <int>                    <dbl> <int>
+1 Somalia     0                   0.0753   146
+2 Somalia     1                   0.114     44
+3 Yemen       0                   1.38      76
+4 Yemen       1                   0.411    248
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{combined\_model }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(region) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}
+    \AttributeTok{mean\_uncertainty =} \FunctionTok{mean}\NormalTok{(uncertainty\_killed, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{),}
+    \AttributeTok{n =} \FunctionTok{n}\NormalTok{(),}
+    \AttributeTok{.groups =} \StringTok{"drop"}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+# A tibble: 2 x 3
+  region  mean_uncertainty     n
+  <fct>              <dbl> <int>
+1 Somalia             1.56   190
+2 Yemen               1.84   324
+\end{verbatim}
+
+\subsection{Result for Hypothesis 3: Reporting
+Uncertainty}\label{result-for-hypothesis-3-reporting-uncertainty}
+
+Reporting uncertainty does \textbf{not} differ between regions (Yemen
+coef = −0.16, \emph{p} = 0.538).\\
+However, drone strikes show \textbf{higher uncertainty} (coef = 0.62,
+IRR = \textbf{1.86}, \emph{p} = 0.013), while confirmed U.S. strikes
+show \textbf{lower uncertainty} (coef = −0.69, IRR = \textbf{0.50},
+\emph{p} = 0.006).\\
+\textbf{Conclusion:} No regional difference in uncertainty → \emph{H3
+not supported}, though uncertainty varies by strike type.
+
+\chapter{Visualizations}\label{visualizations}
+
+\section{Visualization (Test 1)}\label{visualization-test-1}
+
+\[
+\begin{aligned}
+H_{0}: &\ \text{Drone strikes have the same civilian impact in Somalia and Yemen.} \\
+H_{1}: &\ \text{Drone strikes have different civilian impacts across the two regions.}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+E(\text{civilian casualties}) = {} &
+\beta_0 
++ \beta_1(\text{region}) 
++ \beta_2(\text{drone}) 
++ \beta_3(\text{US confirmed}) 
++ \beta_4(\text{minimum strikes}) \\
+& + \beta_5(\text{total killed})
+\end{aligned}
+\]
+
+\pandocbounded{\includegraphics[keepaspectratio]{Example_files/figure-pdf/unnamed-chunk-9-1.pdf}}
+
+\pandocbounded{\includegraphics[keepaspectratio]{Example_files/figure-pdf/unnamed-chunk-10-1.pdf}}
+
+\section{Visualization (Test 2)}\label{visualization-test-2}
+
+\[
+\begin{aligned}
+H_{0}: &\ \text{Drone use affects civilian casualties in the same way in both Somalia and Yemen.} \\
+H_{1}: &\ \text{Drone use affects civilian casualties differently across Somalia and Yemen.}
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+E(\text{civilian casualties}) = {} &
+\beta_0 
++ \beta_1(\text{drone})
++ \beta_2(\text{region}) 
++ \beta_3(\text{drone} \times \text{region}) \\
+& + \beta_4(\text{US confirmed})
++ \beta_5(\text{minimum strikes})
++ \beta_6(\text{total killed})
+\end{aligned}
+\]
+
+\pandocbounded{\includegraphics[keepaspectratio]{Example_files/figure-pdf/unnamed-chunk-11-1.pdf}}
+
+\pandocbounded{\includegraphics[keepaspectratio]{Example_files/figure-pdf/unnamed-chunk-12-1.pdf}}
+
+\section{Visualization (Test 3)}\label{visualization-test-3}
+
+\[
+\begin{aligned}
+H_{0}: &\ \text{Reporting uncertainty does not differ between Somalia and Yemen.} \\
+H_{1}: &\ \text{Reporting uncertainty differs between Somalia and Yemen.}
+\end{aligned}
+\]
+
+\[
+E(\text{Uncertainty in casualties}) =
+\beta_0
++ \beta_1\,\text{Region}
++ \beta_2\,\text{Drone}
++ \beta_3\,\text{US confirmed}
++ \beta_4\,\text{Minimum strikes}
+\]
+
+\pandocbounded{\includegraphics[keepaspectratio]{Example_files/figure-pdf/unnamed-chunk-13-1.pdf}}
+
+\pandocbounded{\includegraphics[keepaspectratio]{Example_files/figure-pdf/unnamed-chunk-14-1.pdf}}
+
+\section{}\label{section-1}
+
+\chapter{Conclusion}\label{conclusion}
+
+Our analysis shows clear and meaningful differences in the humanitarian
+impact of U.S. counterterrorism strikes in Somalia and Yemen. Using
+negative binomial regression to account for overdispersed count data, we
+find that strikes in Yemen are associated with nearly five times the
+civilian casualties of those in Somalia, even after controlling for
+drone use, confirmation status, and strike characteristics. Contrary to
+expectations, drone strikes do not have significantly different effects
+across the two countries, suggesting that broader regional factors---not
+simply weapon type---shape civilian outcomes. We also find no regional
+difference in reporting uncertainty, although uncertainty is higher for
+drone and unconfirmed strikes. Together, these results highlight the
+importance of transparent casualty reporting and the need to consider
+local conflict conditions when evaluating the effectiveness and
+humanitarian cost of U.S. strikes.
+
 \chapter{Author Contributions}\label{author-contributions}
 
-Author1 designed the research. Author2 carried out all simulations,
-analyzed the data. Author1 and Author2 wrote the article.
+In this project, the team collaborated effectively by distributing key
+responsibilities across members. Daniel Dai and Keivan Bolouri led the
+design and preparation of the poster, while Evelyn Isaka and Shanmei
+Wanyan delivered the main presentation. The written report was developed
+by Shanmei Wanyan, Keivan Bolouri, and Linxue Guo, ensuring clear
+documentation of the project's methods and results. Coding and
+analytical implementation were carried out by Itaru Fukushima and Daniel
+Dai, whose contributions supported the project's computational aspects.
 
 \chapter{Acknowledgments}\label{acknowledgments}
 
-We thank G. Harrison, B. Harper, and J. Doe for their help.
+We would like to extend our deepest gratitude to Professor
+\textbf{Vivian Lew}, whose patience, dedication, and insightful guidance
+were invaluable throughout every stage of this project. Her
+encouragement and clear explanations helped us strengthen our
+understanding and improve the quality of our work. We are also grateful
+to our TA, \textbf{Jose Toledo Luna}, for his consistent support,
+helpful feedback, and willingness to assist whenever we needed
+clarification.
 
 \chapter{References}\label{references}
 
 \phantomsection\label{refs}
+
+{[}1{]} Currier, Cora. ``Everything We Know So Far About Drone
+Strikes.''~\emph{ProPublica}, 5 Feb.~2013.\\
+{[}2{]} Woods, Chris. ``Why White House Civilian Casualty Figures Are a
+Wild Underestimate.''~\emph{Bureau of Investigative Journalism}, 1 July
+2016.\\
+{[}3{]} Columbia Law School Human Rights Clinic.~\emph{Counting Drone
+Strike Deaths}. Human Rights Institute, Columbia Law School,
+Oct.~2012.\\
+{[}4{]} Bergen, Peter, David Sterman, and Melissa Salyk-Virk. ``The
+Drone War in Somalia.'' New America, 30 Mar.~2020.\\
+{[}5{]} Bureau of Investigative Journalism. ``Our Methodology.'' BIJ.\\
+{[}6{]} New America. ``America's Counterterrorism Wars: Methodology.''
+Future Security Program.
+
+\href{https://www.defensepriorities.org/explainers/end-us-military-support-for-the-saudi-led-war-in-yemen/\#:~:text=peaked\%20in\%202017\%2C\%20with\%20more,war\%2Fyemen}{{[}7{]}}
+End U.S. military support for the Saudi-led war in Yemen - Defense
+Priorities
+
+\url{https://www.defensepriorities.org/explainers/end-us-military-support-for-the-saudi-led-war-in-yemen/}
 
 
 \backmatter
