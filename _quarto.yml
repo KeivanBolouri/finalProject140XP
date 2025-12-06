@@ -13,6 +13,9 @@ website:
         text: Statistical Methods
       - href: team.qmd
         text: Team
+      - href: Example.qmd
+        text: Create PDF Report
+
 
   page-footer:
     right: "© 2025 Keivan Bolouri"

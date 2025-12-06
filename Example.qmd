@@ -1,0 +1,76 @@
+---
+title: "Civilian Impact of U.S. Drone vs. Non-Drone Strikes in Somalia and Yemen"
+subtitle: "Assessing Humanitarian Impact with Count Regression Models."
+author:
+  - name: "Shanmei Wanyan"
+    affiliations:
+      - name: "University of California, Los Angeles"
+        department: "Department of Statistics and Data Science"
+        address: "8125 Math Sciences Bldg, Los Angeles, CA 90095"
+
+  - name: "Daniel Dai"
+    affiliations:
+      - name: "University of California, Los Angeles"
+        department: "Department of Statistics and Data Science"
+        address: "8125 Math Sciences Bldg, Los Angeles, CA 90095"
+
+  - name: "Keivan Bolouri"
+    affiliations:
+      - name: "University of California, Los Angeles"
+        department: "Department of Statistics and Data Science"
+        address: "8125 Math Sciences Bldg, Los Angeles, CA 90095"
+
+  - name: "Itaru Fukushima"
+    affiliations:
+      - name: "University of California, Los Angeles"
+        department: "Department of Statistics and Data Science"
+        address: "8125 Math Sciences Bldg, Los Angeles, CA 90095"
+
+  - name: "Linxue Guo"
+    affiliations:
+      - name: "University of California, Los Angeles"
+        department: "Department of Statistics and Data Science"
+        address: "8125 Math Sciences Bldg, Los Angeles, CA 90095"
+
+  - name: "Evelyn Isaka"
+    affiliations:
+      - name: "University of California, Los Angeles"
+        department: "Department of Statistics and Data Science"
+        address: "8125 Math Sciences Bldg, Los Angeles, CA 90095"
+
+bibliography: references.bib
+format: 
+  titlepage-pdf:
+    documentclass: scrbook
+    classoption: ["oneside", "open=any"]
+    number-sections: true
+    toc: true
+    lof: true
+    lot: true
+    titlepage: "bg-image"
+    titlepage-bg-image: "img/corner-bg.png"
+    titlepage-logo: "img/logo.png"
+    titlepage-header: "The Publisher"
+    titlepage-footer: |
+      NOAA Fisheries OpenSci\
+      Tools for Open Science\
+      [https://keivanbolouri.github.io/finalProject140XP/](https://keivanbolouri.github.io/finalProject140XP/)\
+    keep-tex: true
+---
+
+# Abstract
+
+Since 2002, the United States has conducted largely hidden counterterrorism campaigns in countries such as Somalia and Yemen, raising ongoing concerns about their humanitarian impact. This project asks how the characteristics and civilian costs of U.S. strikes differ between these two theaters of war. Using open-source strike records compiled by independent monitoring organizations, including the Bureau of Investigative Journalism, We construct a combined dataset of U.S. actions in Somalia and Yemen and analyze casualty patterns with negative binomial regression. The analysis tests three hypotheses: whether civilian casualty rates differ by country, whether drone strikes have different effects across countries, and whether reporting uncertainty varies between regions. The results show that, controlling for strike characteristics and total fatalities, strikes in Yemen are associated with nearly five times the civilian casualties of strikes in Somalia. By contrast, there is no evidence that the impact of drone strikes on civilian harm differs between the two countries, nor that overall reporting uncertainty is systematically higher in one region than the other. However, uncertainty is greater for drone and unconfirmed strikes and lower when U.S. involvement is confirmed. These findings underscore the unequal humanitarian burdens across theaters of U.S. counterterrorism and highlight the need for more transparent and consistent casualty reporting. \# Introduction
+
+# Author Contributions
+
+Author1 designed the research. Author2 carried out all simulations, analyzed the data. Author1 and Author2 wrote the article.
+
+# Acknowledgments
+
+We thank G. Harrison, B. Harper, and J. Doe for their help.
+
+# References
+
+::: {#refs}
+:::

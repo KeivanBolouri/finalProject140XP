@@ -1,0 +1,414 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  oneside,
+  open=any]{scrbook}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+
+\usepackage{hyphenat}
+\usepackage{ifthen}
+\usepackage{calc}
+\usepackage{calculator}
+
+\usepackage{graphicx}
+\usepackage{wallpaper}
+
+\usepackage{geometry}
+
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{afterpage}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{fadings}
+\usepackage[pagecolor=none]{pagecolor}
+
+
+% Set the titlepage font families
+
+
+
+
+
+
+
+% Set the coverpage font families
+
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Civilian Impact of U.S. Drone vs.~Non-Drone Strikes in Somalia and Yemen},
+  pdfauthor={Shanmei Wanyan; Daniel Dai; Keivan Bolouri; Itaru Fukushima; Linxue Guo; Evelyn Isaka},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Civilian Impact of U.S. Drone vs.~Non-Drone Strikes in Somalia
+and Yemen}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Assessing Humanitarian Impact with Count Regression Models.}
+\author{Shanmei Wanyan \and Daniel Dai \and Keivan Bolouri \and Itaru
+Fukushima \and Linxue Guo \and Evelyn Isaka}
+\date{}
+\begin{document}
+%%%%% begin titlepage extension code
+
+  \begin{frontmatter}
+
+\begin{titlepage}
+
+%%% TITLE PAGE START
+
+% Set up alignment commands
+%Page
+\newcommand{\titlepagepagealign}{
+\ifthenelse{\equal{left}{right}}{\raggedleft}{}
+\ifthenelse{\equal{left}{center}}{\centering}{}
+\ifthenelse{\equal{left}{left}}{\raggedright}{}
+}
+
+
+\newcommand{\titleandsubtitle}{
+% Title and subtitle
+{{\large{\bfseries{\nohyphens{Civilian Impact of U.S. Drone
+vs.~Non-Drone Strikes in Somalia and Yemen}}}}\par
+}%
+
+\vspace{\betweentitlesubtitle}
+{
+{\large{\textit{\nohyphens{Assessing Humanitarian Impact with Count
+Regression Models.}}}}\par
+}}
+\newcommand{\titlepagetitleblock}{
+\titleandsubtitle
+}
+
+\newcommand{\authorstyle}[1]{{\large{#1}}}
+
+\newcommand{\affiliationstyle}[1]{{\large{#1}}}
+
+\newcommand{\titlepageauthorblock}{
+{\authorstyle{\nohyphens{Shanmei
+Wanyan}{\textsuperscript{1}},  \nohyphens{Daniel
+Dai}{\textsuperscript{1}},  \nohyphens{Keivan
+Bolouri}{\textsuperscript{1}},  \nohyphens{Itaru
+Fukushima}{\textsuperscript{1}},  \nohyphens{Linxue
+Guo}{\textsuperscript{1}} and \nohyphens{Evelyn
+Isaka}{\textsuperscript{1}}}}}
+
+\newcommand{\titlepageaffiliationblock}{
+\hangindent=1em
+\hangafter=1
+{\affiliationstyle{
+{1}.~University of California, Los Angeles,~Department of Statistics and
+Data Science,~8125 Math Sciences Bldg, Los Angeles, CA 90095
+
+
+\vspace{1\baselineskip} 
+}}
+}
+\newcommand{\headerstyled}{%
+{The Publisher}
+}
+\newcommand{\footerstyled}{%
+{\large{NOAA Fisheries OpenSci\\
+Tools for Open Science\\
+\url{https://keivanbolouri.github.io/finalProject140XP/}\strut \\}}
+}
+\newcommand{\datestyled}{%
+{}
+}
+
+
+\newcommand{\titlepageheaderblock}{\headerstyled}
+
+\newcommand{\titlepagefooterblock}{
+\footerstyled
+}
+
+\newcommand{\titlepagedateblock}{
+\datestyled
+}
+
+%set up blocks so user can specify order
+\newcommand{\titleblock}{\newlength{\betweentitlesubtitle}
+\setlength{\betweentitlesubtitle}{\baselineskip}
+{
+
+{\titlepagetitleblock}
+}
+
+\vspace{4\baselineskip}
+}
+
+\newcommand{\authorblock}{{\titlepageauthorblock}
+
+\vspace{2\baselineskip}
+}
+
+\newcommand{\affiliationblock}{{\titlepageaffiliationblock}
+
+\vspace{1pt}
+}
+
+\newcommand{\logoblock}{{\includegraphics[width=0.25\textheight]{img/logo.png}}
+
+\vspace{2\baselineskip}
+}
+
+\newcommand{\footerblock}{{\titlepagefooterblock}
+
+\vspace{1pt}
+}
+
+\newcommand{\dateblock}{}
+
+\newcommand{\headerblock}{{\titlepageheaderblock
+
+\vspace{0pt}
+}}
+\newgeometry{top=3in,bottom=1in,right=1in,left=1in}
+% background image
+\newlength{\bgimagesize}
+\setlength{\bgimagesize}{0.5\paperwidth}
+\LENGTHDIVIDE{\bgimagesize}{\paperwidth}{\theRatio} % from calculator pkg
+\ThisULCornerWallPaper{\theRatio}{img/corner-bg.png}
+
+\thispagestyle{empty} % no page numbers on titlepages
+
+
+\newcommand{\vrulecode}{\textcolor{black}{\rule{\vrulewidth}{\textheight}}}
+\newlength{\vrulewidth}
+\setlength{\vrulewidth}{1pt}
+\newlength{\B}
+\setlength{\B}{\ifdim\vrulewidth > 0pt 0.05\textwidth\else 0pt\fi}
+\newlength{\minipagewidth}
+\ifthenelse{\equal{left}{left} \OR \equal{left}{right} }
+{% True case
+\setlength{\minipagewidth}{\textwidth - \vrulewidth - \B - 0.1\textwidth}
+}{
+\setlength{\minipagewidth}{\textwidth - 2\vrulewidth - 2\B - 0.1\textwidth}
+}
+\ifthenelse{\equal{left}{left} \OR \equal{left}{leftright}}
+{% True case
+\raggedleft % needed for the minipage to work
+\vrulecode
+\hspace{\B}
+}{%
+\raggedright % else it is right only and width is not 0
+}
+% [position of box][box height][inner position]{width}
+% [s] means stretch out vertically; assuming there is a vfill
+\begin{minipage}[b][\textheight][s]{\minipagewidth}
+\titlepagepagealign
+\titleblock
+
+\authorblock
+
+\affiliationblock
+
+\vfill
+
+\logoblock
+
+\footerblock
+\par
+
+\end{minipage}\ifthenelse{\equal{left}{right} \OR \equal{left}{leftright} }{
+\hspace{\B}
+\vrulecode}{}
+\clearpage
+\restoregeometry
+%%% TITLE PAGE END
+\end{titlepage}
+\setcounter{page}{1}
+\end{frontmatter}
+
+%%%%% end titlepage extension code
+
+\renewcommand*\contentsname{Table of contents}
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\listoffigures
+\listoftables
+
+\mainmatter
+\chapter{Abstract}\label{abstract}
+
+Since 2002, the United States has conducted largely hidden
+counterterrorism campaigns in countries such as Somalia and Yemen,
+raising ongoing concerns about their humanitarian impact. This project
+asks how the characteristics and civilian costs of U.S. strikes differ
+between these two theaters of war. Using open-source strike records
+compiled by independent monitoring organizations, including the Bureau
+of Investigative Journalism, We construct a combined dataset of U.S.
+actions in Somalia and Yemen and analyze casualty patterns with negative
+binomial regression. The analysis tests three hypotheses: whether
+civilian casualty rates differ by country, whether drone strikes have
+different effects across countries, and whether reporting uncertainty
+varies between regions. The results show that, controlling for strike
+characteristics and total fatalities, strikes in Yemen are associated
+with nearly five times the civilian casualties of strikes in Somalia. By
+contrast, there is no evidence that the impact of drone strikes on
+civilian harm differs between the two countries, nor that overall
+reporting uncertainty is systematically higher in one region than the
+other. However, uncertainty is greater for drone and unconfirmed strikes
+and lower when U.S. involvement is confirmed. These findings underscore
+the unequal humanitarian burdens across theaters of U.S.
+counterterrorism and highlight the need for more transparent and
+consistent casualty reporting. \# Introduction
+
+\chapter{Author Contributions}\label{author-contributions}
+
+Author1 designed the research. Author2 carried out all simulations,
+analyzed the data. Author1 and Author2 wrote the article.
+
+\chapter{Acknowledgments}\label{acknowledgments}
+
+We thank G. Harrison, B. Harper, and J. Doe for their help.
+
+\chapter{References}\label{references}
+
+\phantomsection\label{refs}
+
+
+\backmatter
+
+
+\end{document}
