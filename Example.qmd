@@ -1,37 +1,42 @@
 ---
 title: "Civilian Impact of U.S. Drone vs. Non-Drone Strikes in Somalia and Yemen"
 subtitle: "Assessing Humanitarian Impact with Count Regression Models."
+date: "\today"
+
+header-includes:
+  - |
+    \usepackage{titling}
+    \pretitle{\vspace*{-3cm}\begin{center}\bfseries\Huge}
+    \posttitle{\end{center}}
+    \predate{\begin{center}\large}
+    \postdate{\end{center}}
+
 author:
   - name: "Shanmei Wanyan"
     affiliations:
       - name: "University of California, Los Angeles"
         department: "Department of Statistics and Data Science"
         address: "8125 Math Sciences Bldg, Los Angeles, CA 90095"
-
   - name: "Daniel Dai"
     affiliations:
       - name: "University of California, Los Angeles"
         department: "Department of Statistics and Data Science"
         address: "8125 Math Sciences Bldg, Los Angeles, CA 90095"
-
   - name: "Keivan Bolouri"
     affiliations:
       - name: "University of California, Los Angeles"
         department: "Department of Statistics and Data Science"
         address: "8125 Math Sciences Bldg, Los Angeles, CA 90095"
-
   - name: "Itaru Fukushima"
     affiliations:
       - name: "University of California, Los Angeles"
         department: "Department of Statistics and Data Science"
         address: "8125 Math Sciences Bldg, Los Angeles, CA 90095"
-
   - name: "Linxue Guo"
     affiliations:
       - name: "University of California, Los Angeles"
         department: "Department of Statistics and Data Science"
         address: "8125 Math Sciences Bldg, Los Angeles, CA 90095"
-
   - name: "Evelyn Isaka"
     affiliations:
       - name: "University of California, Los Angeles"
@@ -39,6 +44,7 @@ author:
         address: "8125 Math Sciences Bldg, Los Angeles, CA 90095"
 
 bibliography: references.bib
+
 format: 
   titlepage-pdf:
     documentclass: scrbook
@@ -47,13 +53,12 @@ format:
     toc: true
     lof: true
     lot: true
-    titlepage: "bg-image"
-    titlepage-bg-image: "img/corner-bg.png"
+    # titlepage: "bg-image"
     titlepage-logo: "img/logo.png"
-    titlepage-header: "The Publisher"
+    titlepage-header: ""   # removes “The Publisher”
     titlepage-footer: |
-      NOAA Fisheries OpenSci\
-      Tools for Open Science\
+      
+      STATS 140XP – Practice of Statistical Consulting, Fall 2025
       [https://keivanbolouri.github.io/finalProject140XP/](https://keivanbolouri.github.io/finalProject140XP/)\
     keep-tex: true
 ---
@@ -79,7 +84,7 @@ These initiatives highlight the need for **rigorous, comparative analysis**. Yet
 
 We explicitly test three hypotheses:
 
-1.   **Hypothesis 1 – Civilian Harm Difference:**\
+1.  **Hypothesis 1 – Civilian Harm Difference:**\
     Somalia and Yemen differ in their civilian casualty rates.
 
 2.  **Hypothesis 2 – Drone Effectiveness Across Countries:**\
@@ -90,7 +95,7 @@ We explicitly test three hypotheses:
 
 To evaluate these hypotheses, we construct a comprehensive dataset of U.S. counterterrorism strikes in Somalia and Yemen from independent monitoring organizations such as BIJ \[1\]. Because fatality reporting is often uncertain, we use minimum–maximum casualty ranges \[1\]. Civilian casualty counts exhibit strong overdispersion, so we employ negative binomial regression to estimate the effects of region and strike characteristics. This modeling framework allows us to determine whether “country” remains a significant predictor of civilian harm once contextual factors are controlled for.
 
-# Literature Review  
+# Literature Review
 
 Researchers and monitoring groups have spent many years examining how many people are killed in U.S. drone strikes, but most work focuses on one country at a time rather than comparing Somalia and Yemen directly.
 
@@ -108,13 +113,160 @@ Together, these sources show that:
 
 Our study fits into this work by using open-source strike records to conduct a direct, quantitative comparison between Somalia and Yemen. Using negative binomial regression, we test whether the countries differ in civilian casualty rates and the uncertainty of reported casualties, controlling for strike characteristics.
 
+# Data Processing
+
+### Data Import and Cleaning
+
+The dataset combines information on U.S. counterterrorism strikes in **Somalia** and **Yemen**, spanning Somalia (2007–present) and Yemen (2002–present). These data were originally compiled by investigative journalists tracking U.S. drone and air strikes, including casualties. In particular, the source appears to be the **Bureau of Investigative Journalism (TBIJ)**, which maintains detailed records of U.S. strikes in those countries[\[7\]](https://www.defensepriorities.org/explainers/end-us-military-support-for-the-saudi-led-war-in-yemen/#:~:text=peaked%20in%202017%2C%20with%20more,war%2Fyemen). Each country’s data was provided in a separate Excel worksheet (titled *“All US actions”* for Somalia and Yemen respectively), containing reported strike dates, locations, strike types, and casualty counts (with minimum and maximum estimates).
+
+### Data Import and Cleaning
+
+\
+We imported two Excel datasets using `read_excel()` in R:
+
+**Somalia:** `us-strikes-in-somalia-2007-to-present.xls`
+
+**Yemen:** `us-strikes-in-yemen-2002-to-present.xlsx`\
+Each file was read from the "All US actions" sheet into `somalia_raw` and `yemen_raw`.
+
+Using `dplyr::transmute()`, we extracted and standardized key variables to match across datasets. This included:
+
+Assigning a `region` label (Somalia or Yemen)
+
+-   Converting `Date` fields to proper date format
+
+    Creating indicators for drone strikes (`drone`) and U.S. confirmation (`us_confirmed`)
+
+    Harmonizing strike and casualty counts (`min_`/`max_` values for killed, civilians, children, and injured)
+
+These transformations produced two cleaned data frames with identical structures, enabling easy merging.
+
+### Combining and Preparing the Dataset
+
+To support hypothesis testing, we created three key analytical variables from the cleaned and combined dataset. `civilian_casualties` represents the minimum number of civilians killed per strike, using the `min_civilians` field as a conservative estimate. `total_killed` captures the minimum total fatalities (`min_killed`) for each incident, providing a standardized baseline for analysis. `uncertainty_killed` quantifies reporting uncertainty by calculating the difference between `max_killed` and `min_killed`. These derived variables help assess both the scale of violence and the variability in casualty reporting across strikes and regions. All three were added to the dataset and are ready for descriptive analysis.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| error: false
+
+# Load required libraries
+library(readxl)
+library(dplyr)
+library(knitr)
+
+# Read Somalia data
+somalia_raw <- read_excel("us-strikes-in-somalia-2007-to-present.xlsx",
+                          sheet = "All US actions")
+
+# Read Yemen data
+yemen_raw <- read_excel("us-strikes-in-yemen-2002-to-present (2).xlsx",
+                        sheet = "All US actions")
+
+# Clean Somalia data
+somalia <- somalia_raw %>%
+  transmute(
+    region        = "Somalia",
+    date          = as.Date(Date),
+    location      = Location,
+    drone         = if_else(`Drone strike` == 1, 1L, 0L),
+    us_confirmed  = if_else(`Confirmed/\npossible US strike` == "Confirmed", 1L, 0L),
+    min_strikes   = as.numeric(`Minimum strikes`),
+    max_strikes   = as.numeric(`Maximum strikes`),
+    min_killed    = as.numeric(`Minimum people killed`),
+    max_killed    = as.numeric(`Maximum people killed`),
+    min_civilians = as.numeric(`Minimum civilians killed`),
+    max_civilians = as.numeric(`Maximum civilians killed`),
+    min_children  = as.numeric(`Minimum children killed`),
+    max_children  = as.numeric(`Maximum children killed`),
+    min_injured   = as.numeric(`Minimum people injured`),
+    max_injured   = as.numeric(`Maximum people injured`)
+  )
+
+# Clean Yemen data
+yemen <- yemen_raw %>%
+  transmute(
+    region        = "Yemen",
+    date          = as.Date(Date),
+    location      = Location,
+    drone         = if_else(`Drone strike` == 1, 1L, 0L),
+    us_confirmed  = if_else(`Confirmed/\npossible US attack?` == "Confirmed", 1L, 0L),
+    min_strikes   = as.numeric(`Minimum number of strikes`),
+    max_strikes   = as.numeric(`Maximum number of strikes`),
+    min_killed    = as.numeric(`Minimum people killed`),
+    max_killed    = as.numeric(`Maximum people killed`),
+    min_civilians = as.numeric(`Minimum civilians reported killed`),
+    max_civilians = as.numeric(`Maximum civilians reported killed`),
+    min_children  = as.numeric(`Minimum children reported killed`),
+    max_children  = as.numeric(`Maximum children reported killed`),
+    min_injured   = as.numeric(`Minimum people injured`),
+    max_injured   = as.numeric(`Maximum people injured`)
+  )
+
+# Combine datasets
+combined <- bind_rows(somalia, yemen) %>%
+  mutate(
+    region = factor(region, levels = c("Somalia", "Yemen")),
+
+    # Replace missing values
+    min_strikes = if_else(is.na(min_strikes), 0, min_strikes),
+    max_strikes = if_else(is.na(max_strikes), min_strikes, max_strikes),
+
+    min_killed = if_else(is.na(min_killed), 0, min_killed),
+    max_killed = if_else(is.na(max_killed), min_killed, max_killed),
+
+    min_civilians = if_else(is.na(min_civilians), 0, min_civilians),
+    max_civilians = if_else(is.na(max_civilians), min_civilians, max_civilians),
+
+    # Derived variables
+    civilian_casualties = min_civilians,
+    total_killed = min_killed,
+    uncertainty_killed = max_killed - min_killed
+  )
+
+# Optional: subset for modeling
+combined_model <- combined %>%
+  filter(
+    !is.na(civilian_casualties),
+    !is.na(uncertainty_killed),
+    !is.na(min_strikes),
+    !is.na(total_killed)
+  )
+
+# Summary table
+summary_df <- combined %>%
+  dplyr::select(region, civilian_casualties, total_killed, uncertainty_killed) %>%
+  group_by(region) %>%
+  summarise(
+    mean_civilian = mean(civilian_casualties, na.rm = TRUE),
+    mean_total_killed = mean(total_killed, na.rm = TRUE),
+    mean_uncertainty = mean(uncertainty_killed, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# Display summary table with kable
+knitr::kable(
+  summary_df,
+  digits = 2,
+  col.names = c("Region", "Avg. Civilian Casualties", "Avg. Total Killed", "Avg. Reporting Uncertainty"),
+  caption = "Summary of Key Derived Variables by Region"
+)
+
+
+```
+
+### Finalizing the Dataset for Analysis
+
+The last step shown is the creation of `combined_model`, which is a filtered version of the data ready for modeling or statistical analysis. Here we **restrict to complete cases** for the key outcome variables of interest. The code `filter(!is.na(civilian_casualties), !is.na(uncertainty_killed), !is.na(min_strikes), !is.na(total_killed))` removes any strikes that still have missing values in those crucial fields.
+
+In practice, because we already replaced NAs with 0 or other values for most of these, there may be very few records dropped. However, this filter is a safety measure to ensure that the modeling dataset doesn’t include any undefined values. For example, if a particular entry had an entirely missing civilian casualty field in the raw data (and somehow our earlier replacement didn’t catch it), or if any event lacks data on number of strikes or total killed, it will be excluded. The end result `combined_model` contains only strikes with valid `civilian_casualties`, `total_killed`, `uncertainty_killed`, and `min_strikes` values. This will be the dataset used in subsequent analysis and hypothesis testing.
+
 # Methods
 
 ## Statistical Methods
 
 ### Hypothesis Tests
-
-------------------------------------------------------------------------
 
 ### **Hypothesis 1: Civilian Harm Difference**
 
@@ -186,9 +338,6 @@ E(\text{civilian casualties}) = {} &
 $$
 
 ### **Hypothesis 3: Reporting Uncertainty Difference**
-
-**H0:** Reporting uncertainty does not differ between Somalia and Yemen.\
-**H1:** Reporting uncertainty differs between Somalia and Yemen.
 
 $$
 \begin{aligned}
@@ -351,17 +500,550 @@ mean_civ <- mean(combined_model$civilian_casualties)
 var_civ  <- var(combined_model$civilian_casualties)
 
 c(mean = mean_civ, variance = var_civ)
+
 ```
+
+Showt that our data is overdispersion: $E(x) < \mathrm{Var}(x)$
+
+In our combined Somalia–Yemen dataset, civilian casualties have a mean of **0.43** and a variance of **8.00**, so the variance is about **18 times** larger than the mean. This large variance-to-mean ratio indicates substantial overdispepersion.
+
+\
+To verify whether a Poisson model was appropriate for our outcome variable, we formally tested for overdispersion. We first fit a Poisson regression using civilian casualties as the count outcome and calculated the dispersion statistic by dividing the residual deviance by the residual degrees of freedom.
+
+### Poisson dispersion test
+
+$$
+\begin{aligned}
+H_0 &: \text{dispersion} = 1 \quad (\text{Poisson adequate})\\
+H_a &: \text{dispersion} > 1 \quad (\text{overdispersion})
+\end{aligned}
+$$
+
+```{r}
+#| message: false
+#| warning: false
+#| error: false  
+
+library(MASS)
+library(AER)   # for dispersiontest
+
+# Poisson version of H1 model
+pois_h1 <- glm(
+  civilian_casualties ~ region + drone + us_confirmed
+  + min_strikes + total_killed,
+  family = poisson(link = "log"),
+  data = combined_model
+)
+
+# 3a. Quick dispersion estimate: residual deviance / df
+dispersion_est <- pois_h1$deviance / pois_h1$df.residual
+dispersion_est
+
+# 3b. Formal test
+dispersiontest(pois_h1)
+
+```
+
+The resulting value of approximately **1.95** already suggested that the variance in the data was nearly twice as large as the Poisson model allows. We then conducted a formal **overdispersion test** using `dispersiontest()` from the *AER* package. The test returned a z-value of **2.40** with a p-value of **0.008**, indicating statistically significant overdispersion. In other words, the Poisson assumption that the mean equals the variance is violated. Because the data exhibit much greater variability than the Poisson model can accommodate, this test confirms that a **negative binomial regression**—which includes an additional.
+
+Consequently, we use negative binomial regression, which relaxes the equidispersion assumption and is more appropriate for these data.
+
+# Statistical Testing
+
+**Hypothesis Test 1**
+
+```{r}
+#| error: false
+#| warning: false
+#| message: false
+
+
+library(dplyr)
+library(stringr)
+library(MASS)
+library(broom)
+
+
+
+model_h1 <- glm.nb(
+  civilian_casualties ~ region 
+  + drone + us_confirmed + min_strikes + total_killed,
+  data = combined_model
+)
+
+summary(model_h1)
+tidy(model_h1, exponentiate = TRUE, conf.int = TRUE)  
+
+
+
+```
+
+### Rsult for Hypothesis 1: Civilian Harm Differences
+
+Strikes in **Yemen** show significantly higher civilian casualties than those in Somalia.\
+The coefficient for Yemen is **1.59** (*p* = 0.0135), corresponding to an IRR of **4.9**, meaning Yemen strikes produce nearly **5×** the civilian casualties of Somalia.\
+Total fatalities are also positively associated with civilian casualties (coef = **0.146**, *p* \< 0.001).\
+**Conclusion:** Civilian harm is significantly higher in Yemen → *H1 supported*
+
+**Hypothesis Test 2**
+
+```{r}
+#| warning: false
+#| error: false
+
+
+
+model_h2 <- glm.nb(
+  civilian_casualties ~ drone * region +
+    us_confirmed + min_strikes + total_killed,
+  data = combined_model
+)
+
+summary(model_h2)
+tidy(model_h2, exponentiate = TRUE, conf.int = TRUE)
+
+```
+
+### Result for Hypothesis 2: Drone Effectiveness by Country
+
+The key interaction term **drone × region (Yemen)** is **not significant** (coef = −0.49, *p* = 0.688).\
+Drone use alone is also not significant (coef = 0.33, *p* = 0.741).\
+**Conclusion:** Drones do not affect civilian casualties differently across countries → *H2 not supported*.
+
+**Hypothesis Test 3**
+
+```{r}
+#| warning: false
+#| error: false
+#| message: false
+
+model_h3 <- glm.nb(
+  uncertainty_killed ~ region + 
+    drone + us_confirmed + min_strikes,
+  data = combined_model
+)
+summary(model_h3)
+tidy(model_h3, exponentiate = TRUE, conf.int = TRUE)
+
+combined_model %>%
+  group_by(region, drone) %>%
+  summarise(
+    mean_civilian_casualties = mean(civilian_casualties, na.rm = TRUE),
+    n = n(),
+    .groups = "drop"
+  )
+
+combined_model %>%
+  group_by(region) %>%
+  summarise(
+    mean_uncertainty = mean(uncertainty_killed, na.rm = TRUE),
+    n = n(),
+    .groups = "drop"
+  )
+```
+
+### Result for Hypothesis 3: Reporting Uncertainty
+
+Reporting uncertainty does **not** differ between regions (Yemen coef = −0.16, *p* = 0.538).\
+However, drone strikes show **higher uncertainty** (coef = 0.62, IRR = **1.86**, *p* = 0.013), while confirmed U.S. strikes show **lower uncertainty** (coef = −0.69, IRR = **0.50**, *p* = 0.006).\
+**Conclusion:** No regional difference in uncertainty → *H3 not supported*, though uncertainty varies by strike type.
+
+# Visualizations
+
+## Visualization (Test 1)
+
+$$
+\begin{aligned}
+H_{0}: &\ \text{Drone strikes have the same civilian impact in Somalia and Yemen.} \\
+H_{1}: &\ \text{Drone strikes have different civilian impacts across the two regions.}
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+E(\text{civilian casualties}) = {} &
+\beta_0 
++ \beta_1(\text{region}) 
++ \beta_2(\text{drone}) 
++ \beta_3(\text{US confirmed}) 
++ \beta_4(\text{minimum strikes}) \\
+& + \beta_5(\text{total killed})
+\end{aligned}
+$$
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+
+library(dplyr)
+library(ggplot2)
+
+# We assume model_h1 is already fitted:
+# model_h1 <- glm.nb(
+#   civilian_casualties ~ region + drone + us_confirmed + min_strikes + total_killed,
+#   data = combined_model
+# )
+
+# 1. Create a grid of values to predict on
+#    - Vary total_killed
+#    - Hold other covariates at typical values
+total_seq <- seq(from = 0, to = 30, by = 1)   # adjust max if needed
+
+newdata_h1 <- expand.grid(
+  region       = c("Somalia", "Yemen"),
+  drone        = 1,   # assume drone strike; change to 0 if you want non-drone
+  us_confirmed = 1,   # assume confirmed U.S. strike
+  min_strikes  = 1,   # typical number of strikes
+  total_killed = total_seq
+)
+
+# 2. Get predicted civilian casualties from the model
+pred_h1 <- predict(
+  model_h1,
+  newdata = newdata_h1,
+  type = "link",
+  se.fit = TRUE
+)
+
+# 3. Add predictions (on response scale) + CIs back to data frame
+newdata_h1 <- newdata_h1 %>%
+  mutate(
+    fit_link  = pred_h1$fit,
+    se_link   = pred_h1$se.fit,
+    # convert from log scale to count scale
+    pred_civ  = exp(fit_link),
+    lower_ci  = exp(fit_link - 1.96 * se_link),
+    upper_ci  = exp(fit_link + 1.96 * se_link)
+  )
+
+# 4. Plot predicted civilian casualties vs. total_killed, by region
+ggplot(newdata_h1, aes(x = total_killed, y = pred_civ, color = region)) +
+  geom_line(size = 1) +
+  geom_ribbon(aes(ymin = lower_ci, ymax = upper_ci, fill = region),
+              alpha = 0.2, color = NA) +
+  labs(
+    x = "Total fatalities (minimum)",
+    y = "Predicted civilian casualties",
+    color = "Region",
+    fill  = "Region",
+    title = ""
+  ) +
+  theme_minimal()
+
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+library(dplyr)
+library(ggplot2)
+
+# 1. Restrict to a reasonable range for plotting
+plot_data <- combined_model %>%
+  filter(total_killed <= 30)
+
+max_killed_plot <- max(plot_data$total_killed, na.rm = TRUE)
+
+# 2. Prediction grid
+total_seq <- seq(0, max_killed_plot, length.out = 100)
+
+newdata_h1 <- expand.grid(
+  region       = c("Somalia", "Yemen"),
+  drone        = 1,
+  us_confirmed = 1,
+  min_strikes  = 1,
+  total_killed = total_seq
+)
+
+# 3. Model predictions
+pred_h1 <- predict(model_h1, newdata_h1, type = "link", se.fit = TRUE)
+
+newdata_h1 <- newdata_h1 %>%
+  mutate(
+    fit      = exp(pred_h1$fit),
+    lower_ci = exp(pred_h1$fit - 1.96 * pred_h1$se.fit),
+    upper_ci = exp(pred_h1$fit + 1.96 * pred_h1$se.fit)
+  )
+
+# 4. Clamp SOMALIA predictions to 0–6 for readability
+newdata_h1 <- newdata_h1 %>%
+  mutate(
+    fit      = ifelse(region == "Somalia", pmin(fit, 6), fit),
+    lower_ci = ifelse(region == "Somalia", pmin(lower_ci, 6), lower_ci),
+    upper_ci = ifelse(region == "Somalia", pmin(upper_ci, 6), upper_ci)
+  )
+
+# 5. Plot
+ggplot() +
+  geom_point(
+    data = plot_data,
+    aes(x = total_killed, y = civilian_casualties, color = region),
+    alpha = 0.6,
+    size  = 2
+  ) +
+  geom_line(
+    data = newdata_h1,
+    aes(x = total_killed, y = fit, color = region),
+    size = 1
+  ) +
+  geom_ribbon(
+    data = newdata_h1,
+    aes(x = total_killed, ymin = lower_ci, ymax = upper_ci, fill = region),
+    alpha = 0.2,
+    color = NA
+  ) +
+  facet_wrap(~ region, scales = "free_y") +   # <<< key: SOMALIA gets y = 0–6
+  labs(
+    title = " ",
+  
+    x = "Total Fatalities (Minimum)",
+    y = "Civilian Casualties"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(face = "bold")
+  )
+
+```
+
+## Visualization (Test 2)
+
+$$
+\begin{aligned}
+H_{0}: &\ \text{Drone use affects civilian casualties in the same way in both Somalia and Yemen.} \\
+H_{1}: &\ \text{Drone use affects civilian casualties differently across Somalia and Yemen.}
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+E(\text{civilian casualties}) = {} &
+\beta_0 
++ \beta_1(\text{drone})
++ \beta_2(\text{region}) 
++ \beta_3(\text{drone} \times \text{region}) \\
+& + \beta_4(\text{US confirmed})
++ \beta_5(\text{minimum strikes})
++ \beta_6(\text{total killed})
+\end{aligned}
+$$
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+library(dplyr)
+library(ggplot2)
+
+# H2 model should already be fitted as:
+# model_h2 <- glm.nb(
+#   civilian_casualties ~ drone * region + us_confirmed + min_strikes + total_killed,
+#   data = combined_model
+# )
+
+# 1. Choose typical values for controls
+mean_total_killed  <- mean(combined_model$total_killed,  na.rm = TRUE)
+mean_min_strikes   <- mean(combined_model$min_strikes,   na.rm = TRUE)
+
+# 2. Create prediction grid: region x drone (0/1)
+newdata_h2 <- expand.grid(
+  region       = c("Somalia", "Yemen"),
+  drone        = c(0, 1),
+  us_confirmed = 1,                      # assume confirmed US strike
+  min_strikes  = mean_min_strikes,       # typical number of strikes
+  total_killed = mean_total_killed       # typical total fatalities
+)
+
+# 3. Get model predictions + CI (on response scale)
+pred_h2 <- predict(model_h2, newdata_h2, type = "link", se.fit = TRUE)
+
+newdata_h2 <- newdata_h2 %>%
+  mutate(
+    drone_label = ifelse(drone == 1, "Drone", "Non-drone"),
+    fit_link    = pred_h2$fit,
+    se_link     = pred_h2$se.fit,
+    pred_civ    = exp(fit_link),
+    lower_ci    = exp(fit_link - 1.96 * se_link),
+    upper_ci    = exp(fit_link + 1.96 * se_link)
+  )
+
+# 4. Also compute observed means for reference
+obs_means <- combined_model %>%
+  group_by(region, drone) %>%
+  summarise(
+    mean_civ = mean(civilian_casualties, na.rm = TRUE),
+    .groups  = "drop"
+  ) %>%
+  mutate(
+    drone_label = ifelse(drone == 1, "Drone", "Non-drone")
+  )
+
+# 5. Plot: H2 interaction (model predictions + observed means)
+ggplot(newdata_h2, aes(x = drone_label, y = pred_civ, fill = region)) +
+  # model predicted mean + CI
+  geom_col(position = position_dodge(width = 0.6), width = 0.5, alpha = 0.8) +
+  geom_errorbar(
+    aes(ymin = lower_ci, ymax = upper_ci),
+    position = position_dodge(width = 0.6),
+    width = 0.2
+  ) +
+  # observed mean as points
+  geom_point(
+    data = obs_means,
+    aes(x = drone_label, y = mean_civ, color = region),
+    position = position_dodge(width = 0.6),
+    size = 2.5,
+    show.legend = FALSE
+  ) +
+  labs(
+    title    = "  ",
+,
+    x        = "",
+    y        = "Civilian casualties (expected count)",
+    fill     = "Region"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title    = element_text(face = "bold"),
+    plot.subtitle = element_text(size = 11)
+  )
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+
+library(dplyr)
+library(ggplot2)
+
+# Typical values
+mean_total_killed <- mean(combined_model$total_killed,  na.rm = TRUE)
+mean_min_strikes  <- mean(combined_model$min_strikes,   na.rm = TRUE)
+
+# Prediction grid
+newdata_h2 <- expand.grid(
+  region       = c("Somalia", "Yemen"),
+  drone        = c(0, 1),
+  us_confirmed = 1,
+  min_strikes  = mean_min_strikes,
+  total_killed = mean_total_killed
+)
+
+# Predictions
+pred <- predict(model_h2, newdata_h2, type = "response")
+
+newdata_h2 <- newdata_h2 %>%
+  mutate(
+    drone_label = ifelse(drone == 1, "Drone", "Non-drone"),
+    pred_civ    = pred
+  )
+
+# Interaction plot WITHOUT error bars
+ggplot(newdata_h2, aes(x = drone_label, y = pred_civ, color = region, group = region)) +
+  geom_line(size = 1.5) +
+  geom_point(size = 4) +
+  labs(
+    title = " ",
+    
+    x = "Strike type",
+    y = "Predicted civilian casualties",
+    color = "Region"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    plot.subtitle = element_text(size = 11)
+  )
+```
+
+## Visualization (Test 3)
+
+$$
+\begin{aligned}
+H_{0}: &\ \text{Reporting uncertainty does not differ between Somalia and Yemen.} \\
+H_{1}: &\ \text{Reporting uncertainty differs between Somalia and Yemen.}
+\end{aligned}
+$$
+
+$$
+E(\text{Uncertainty in casualties}) =
+\beta_0
++ \beta_1\,\text{Region}
++ \beta_2\,\text{Drone}
++ \beta_3\,\text{US confirmed}
++ \beta_4\,\text{Minimum strikes}
+$$
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+ggplot(combined_model, aes(x = region, y = total_killed, fill = region)) +
+  geom_boxplot(alpha = 0.7) +
+  scale_y_log10() +
+  labs(
+    title = " ",
+    x = "Region",
+    y = "Total killed (log10)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+ggsave("boxplot_total_killed.png", width = 6, height = 4, dpi = 300)
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+ggplot(combined_model, aes(x = region, y = total_killed, fill = region)) +
+  geom_violin(alpha = 0.6, trim = FALSE) +
+  geom_jitter(width = 0.15, alpha = 0.3) +
+  scale_y_log10() +   # optional but recommended
+  labs(
+    title = "       ",
+    x = "Region",
+    y = "Total killed (log scale)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+## 
+
+# Conclusion
+
+Our analysis shows clear and meaningful differences in the humanitarian impact of U.S. counterterrorism strikes in Somalia and Yemen. Using negative binomial regression to account for overdispersed count data, we find that strikes in Yemen are associated with nearly five times the civilian casualties of those in Somalia, even after controlling for drone use, confirmation status, and strike characteristics. Contrary to expectations, drone strikes do not have significantly different effects across the two countries, suggesting that broader regional factors—not simply weapon type—shape civilian outcomes. We also find no regional difference in reporting uncertainty, although uncertainty is higher for drone and unconfirmed strikes. Together, these results highlight the importance of transparent casualty reporting and the need to consider local conflict conditions when evaluating the effectiveness and humanitarian cost of U.S. strikes.
 
 # Author Contributions
 
-Author1 designed the research. Author2 carried out all simulations, analyzed the data. Author1 and Author2 wrote the article.
+In this project, the team collaborated effectively by distributing key responsibilities across members. Daniel Dai and Keivan Bolouri led the design and preparation of the poster, while Evelyn Isaka and Shanmei Wanyan delivered the main presentation. The written report was developed by Shanmei Wanyan, Keivan Bolouri, and Linxue Guo, ensuring clear documentation of the project’s methods and results. Coding and analytical implementation were carried out by Itaru Fukushima and Daniel Dai, whose contributions supported the project’s computational aspects.
 
 # Acknowledgments
 
-We thank G. Harrison, B. Harper, and J. Doe for their help.
+We would like to extend our deepest gratitude to Professor **Vivian Lew**, whose patience, dedication, and insightful guidance were invaluable throughout every stage of this project. Her encouragement and clear explanations helped us strengthen our understanding and improve the quality of our work. We are also grateful to our TA, **Jose Toledo Luna**, for his consistent support, helpful feedback, and willingness to assist whenever we needed clarification.
 
 # References
 
 ::: {#refs}
 :::
+
+\[1\] Currier, Cora. “Everything We Know So Far About Drone Strikes.” *ProPublica*, 5 Feb. 2013.\
+\[2\] Woods, Chris. “Why White House Civilian Casualty Figures Are a Wild Underestimate.” *Bureau of Investigative Journalism*, 1 July 2016.\
+\[3\] Columbia Law School Human Rights Clinic. *Counting Drone Strike Deaths*. Human Rights Institute, Columbia Law School, Oct. 2012.\
+\[4\] Bergen, Peter, David Sterman, and Melissa Salyk-Virk. “The Drone War in Somalia.” New America, 30 Mar. 2020.\
+\[5\] Bureau of Investigative Journalism. “Our Methodology.” BIJ.\
+\[6\] New America. “America’s Counterterrorism Wars: Methodology.” Future Security Program.
+
+[\[7\]](https://www.defensepriorities.org/explainers/end-us-military-support-for-the-saudi-led-war-in-yemen/#:~:text=peaked%20in%202017%2C%20with%20more,war%2Fyemen) End U.S. military support for the Saudi-led war in Yemen - Defense Priorities
+
+<https://www.defensepriorities.org/explainers/end-us-military-support-for-the-saudi-led-war-in-yemen/>
