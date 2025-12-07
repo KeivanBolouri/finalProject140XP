@@ -459,7 +459,26 @@ Our analysis shows clear and meaningful differences in the humanitarian impact o
 
 ## Visualizations
 
-## Visualization of H1
+## Hypothesis Test 1
+
+$$
+\begin{aligned}
+H_{0}: &\ \text{Drone strikes have the same civilian impact in Somalia and Yemen.} \\
+H_{1}: &\ \text{Drone strikes have different civilian impacts across the two regions.}
+\end{aligned}
+$$
+$$
+\begin{aligned}
+E(\text{civilian casualties}) = {} &
+\beta_0 
++ \beta_1(\text{region}) 
++ \beta_2(\text{drone}) 
++ \beta_3(\text{US confirmed}) 
++ \beta_4(\text{minimum strikes}) \\
+& + \beta_5(\text{total killed})
+\end{aligned}
+$$
+
 
 ```{r}
 #| echo: false
@@ -588,7 +607,7 @@ ggplot() +
   ) +
   facet_wrap(~ region, scales = "free_y") +   # <<< key: SOMALIA gets y = 0–6
   labs(
-    title = "Predicted Civilian Casualties (H1 Model)",
+    title = " ",
   
     x = "Total Fatalities (Minimum)",
     y = "Civilian Casualties"
@@ -601,11 +620,28 @@ ggplot() +
 
 ```
 
-### Interpretation of H1 Model Results
 
-This discrepancy suggests that additional unmeasured factors—such as target type, population density, intelligence quality, or operational context—likely influence civilian harm in Yemen. Therefore, the model’s overall comparative conclusions remain valid, but predictions for Yemen should be interpreted cautiously due to the region’s greater variability.
 
-## Visualization of H2
+## Hypothesis Test 2
+
+$$
+\begin{aligned}
+H_{0}: &\ \text{Drone use affects civilian casualties in the same way in both Somalia and Yemen.} \\
+H_{1}: &\ \text{Drone use affects civilian casualties differently across Somalia and Yemen.}
+\end{aligned}
+$$
+$$
+\begin{aligned}
+E(\text{civilian casualties}) = {} &
+\beta_0 
++ \beta_1(\text{drone})
++ \beta_2(\text{region}) 
++ \beta_3(\text{drone} \times \text{region}) \\
+& + \beta_4(\text{US confirmed})
++ \beta_5(\text{minimum strikes})
++ \beta_6(\text{total killed})
+\end{aligned}
+$$
 
 ```{r}
 #| echo: false
@@ -676,8 +712,8 @@ ggplot(newdata_h2, aes(x = drone_label, y = pred_civ, fill = region)) +
     show.legend = FALSE
   ) +
   labs(
-    title    = "H2: Drone Effect on Civilian Casualties by Region",
-    subtitle = "Bars = model-predicted means; points = observed means",
+    title    = " ",
+    subtitle = "",
     x        = "Strike type",
     y        = "Civilian casualties (expected count)",
     fill     = "Region"
@@ -726,7 +762,7 @@ ggplot(newdata_h2, aes(x = drone_label, y = pred_civ, color = region, group = re
   geom_line(size = 1.5) +
   geom_point(size = 4) +
   labs(
-    title = "H2 Interaction: Drone Use × Region",
+    title = "",
     
     x = "Strike type",
     y = "Predicted civilian casualties",
@@ -741,7 +777,22 @@ ggplot(newdata_h2, aes(x = drone_label, y = pred_civ, color = region, group = re
 
 ```
 
-## Visualization of H3
+## Hypothesis Test 3
+
+$$
+\begin{aligned}
+H_{0}: &\ \text{Reporting uncertainty does not differ between Somalia and Yemen.} \\
+H_{1}: &\ \text{Reporting uncertainty differs between Somalia and Yemen.}
+\end{aligned}
+$$
+$$
+E(\text{Uncertainty in casualties}) =
+\beta_0
++ \beta_1\,\text{Region}
++ \beta_2\,\text{Drone}
++ \beta_3\,\text{US confirmed}
++ \beta_4\,\text{Minimum strikes}
+$$
 
 ```{r}
 #| include: false
@@ -762,7 +813,7 @@ ggplot(combined_model, aes(x = region, y = total_killed, fill = region)) +
   geom_boxplot(alpha = 0.7) +
   scale_y_log10() +
   labs(
-    title = "Total Fatalities by Region (log scale)",
+    title = "",
     x = "Region",
     y = "Total killed (log10)"
   ) +
@@ -783,7 +834,7 @@ ggplot(combined_model, aes(x = region, y = total_killed, fill = region)) +
   geom_jitter(width = 0.15, alpha = 0.3) +
   scale_y_log10() +   # optional but recommended
   labs(
-    title = "Distribution of Total Fatalities by Region",
+    title = " ",
     x = "Region",
     y = "Total killed (log scale)"
   ) +

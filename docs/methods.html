@@ -209,12 +209,9 @@ window.Quarto = {
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a>
   <ul class="collapse">
   <li><a href="#visualizations" id="toc-visualizations" class="nav-link" data-scroll-target="#visualizations">Visualizations</a></li>
-  <li><a href="#visualization-of-h1" id="toc-visualization-of-h1" class="nav-link" data-scroll-target="#visualization-of-h1">Visualization of H1</a>
-  <ul class="collapse">
-  <li><a href="#interpretation-of-h1-model-results" id="toc-interpretation-of-h1-model-results" class="nav-link" data-scroll-target="#interpretation-of-h1-model-results">Interpretation of H1 Model Results</a></li>
-  </ul></li>
-  <li><a href="#visualization-of-h2" id="toc-visualization-of-h2" class="nav-link" data-scroll-target="#visualization-of-h2">Visualization of H2</a></li>
-  <li><a href="#visualization-of-h3" id="toc-visualization-of-h3" class="nav-link" data-scroll-target="#visualization-of-h3">Visualization of H3</a></li>
+  <li><a href="#hypothesis-test-1" id="toc-hypothesis-test-1" class="nav-link" data-scroll-target="#hypothesis-test-1">Hypothesis Test 1</a></li>
+  <li><a href="#hypothesis-test-2" id="toc-hypothesis-test-2" class="nav-link" data-scroll-target="#hypothesis-test-2">Hypothesis Test 2</a></li>
+  <li><a href="#hypothesis-test-3" id="toc-hypothesis-test-3" class="nav-link" data-scroll-target="#hypothesis-test-3">Hypothesis Test 3</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -704,8 +701,24 @@ However, drone strikes show <strong>higher uncertainty</strong> (coef = 0.62, IR
 <section id="visualizations" class="level2">
 <h2 class="anchored" data-anchor-id="visualizations">Visualizations</h2>
 </section>
-<section id="visualization-of-h1" class="level2">
-<h2 class="anchored" data-anchor-id="visualization-of-h1">Visualization of H1</h2>
+<section id="hypothesis-test-1" class="level2">
+<h2 class="anchored" data-anchor-id="hypothesis-test-1">Hypothesis Test 1</h2>
+<p><span class="math display">\[
+\begin{aligned}
+H_{0}: &amp;\ \text{Drone strikes have the same civilian impact in Somalia and Yemen.} \\
+H_{1}: &amp;\ \text{Drone strikes have different civilian impacts across the two regions.}
+\end{aligned}
+\]</span> <span class="math display">\[
+\begin{aligned}
+E(\text{civilian casualties}) = {} &amp;
+\beta_0
++ \beta_1(\text{region})
++ \beta_2(\text{drone})
++ \beta_3(\text{US confirmed})
++ \beta_4(\text{minimum strikes}) \\
+&amp; + \beta_5(\text{total killed})
+\end{aligned}
+\]</span></p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -724,13 +737,26 @@ However, drone strikes show <strong>higher uncertainty</strong> (coef = 0.62, IR
 </div>
 </div>
 </div>
-<section id="interpretation-of-h1-model-results" class="level3">
-<h3 class="anchored" data-anchor-id="interpretation-of-h1-model-results">Interpretation of H1 Model Results</h3>
-<p>This discrepancy suggests that additional unmeasured factors—such as target type, population density, intelligence quality, or operational context—likely influence civilian harm in Yemen. Therefore, the model’s overall comparative conclusions remain valid, but predictions for Yemen should be interpreted cautiously due to the region’s greater variability.</p>
 </section>
-</section>
-<section id="visualization-of-h2" class="level2">
-<h2 class="anchored" data-anchor-id="visualization-of-h2">Visualization of H2</h2>
+<section id="hypothesis-test-2" class="level2">
+<h2 class="anchored" data-anchor-id="hypothesis-test-2">Hypothesis Test 2</h2>
+<p><span class="math display">\[
+\begin{aligned}
+H_{0}: &amp;\ \text{Drone use affects civilian casualties in the same way in both Somalia and Yemen.} \\
+H_{1}: &amp;\ \text{Drone use affects civilian casualties differently across Somalia and Yemen.}
+\end{aligned}
+\]</span> <span class="math display">\[
+\begin{aligned}
+E(\text{civilian casualties}) = {} &amp;
+\beta_0
++ \beta_1(\text{drone})
++ \beta_2(\text{region})
++ \beta_3(\text{drone} \times \text{region}) \\
+&amp; + \beta_4(\text{US confirmed})
++ \beta_5(\text{minimum strikes})
++ \beta_6(\text{total killed})
+\end{aligned}
+\]</span></p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -750,8 +776,21 @@ However, drone strikes show <strong>higher uncertainty</strong> (coef = 0.62, IR
 </div>
 </div>
 </section>
-<section id="visualization-of-h3" class="level2">
-<h2 class="anchored" data-anchor-id="visualization-of-h3">Visualization of H3</h2>
+<section id="hypothesis-test-3" class="level2">
+<h2 class="anchored" data-anchor-id="hypothesis-test-3">Hypothesis Test 3</h2>
+<p><span class="math display">\[
+\begin{aligned}
+H_{0}: &amp;\ \text{Reporting uncertainty does not differ between Somalia and Yemen.} \\
+H_{1}: &amp;\ \text{Reporting uncertainty differs between Somalia and Yemen.}
+\end{aligned}
+\]</span> <span class="math display">\[
+E(\text{Uncertainty in casualties}) =
+\beta_0
++ \beta_1\,\text{Region}
++ \beta_2\,\text{Drone}
++ \beta_3\,\text{US confirmed}
++ \beta_4\,\text{Minimum strikes}
+\]</span></p>
 <div class="cell">
 <div class="cell-output-display">
 <div>

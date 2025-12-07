@@ -131,6 +131,11 @@
 \def\fps@figure{htbp}
 \makeatother
 
+\usepackage{titling}
+\pretitle{\vspace*{-3cm}\begin{center}\bfseries\Huge}
+\posttitle{\end{center}}
+\predate{\begin{center}\large}
+\postdate{\end{center}}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
@@ -178,10 +183,7 @@
 \usepackage{calc}
 \usepackage{calculator}
 
-\usepackage{graphicx}
-\usepackage{wallpaper}
 
-\usepackage{geometry}
 
 \usepackage{graphicx}
 \usepackage{geometry}
@@ -223,7 +225,7 @@ and Yemen}
 \subtitle{Assessing Humanitarian Impact with Count Regression Models.}
 \author{Shanmei Wanyan \and Daniel Dai \and Keivan Bolouri \and Itaru
 Fukushima \and Linxue Guo \and Evelyn Isaka}
-\date{}
+\date{Invalid Date}
 \begin{document}
 %%%%% begin titlepage extension code
 
@@ -244,22 +246,22 @@ Fukushima \and Linxue Guo \and Evelyn Isaka}
 
 \newcommand{\titleandsubtitle}{
 % Title and subtitle
-{{\large{\bfseries{\nohyphens{Civilian Impact of U.S. Drone
-vs.~Non-Drone Strikes in Somalia and Yemen}}}}\par
+{{\Large{\nohyphens{Civilian Impact of U.S. Drone vs.~Non-Drone Strikes
+in Somalia and Yemen}}}\par
 }%
 
 \vspace{\betweentitlesubtitle}
 {
-{\large{\textit{\nohyphens{Assessing Humanitarian Impact with Count
-Regression Models.}}}}\par
+{\textit{\nohyphens{Assessing Humanitarian Impact with Count Regression
+Models.}}}\par
 }}
 \newcommand{\titlepagetitleblock}{
 \titleandsubtitle
 }
 
-\newcommand{\authorstyle}[1]{{\large{#1}}}
+\newcommand{\authorstyle}[1]{{#1}}
 
-\newcommand{\affiliationstyle}[1]{{\large{#1}}}
+\newcommand{\affiliationstyle}[1]{{#1}}
 
 \newcommand{\titlepageauthorblock}{
 {\authorstyle{\nohyphens{Shanmei
@@ -282,14 +284,14 @@ Data Science,~8125 Math Sciences Bldg, Los Angeles, CA 90095
 }}
 }
 \newcommand{\headerstyled}{%
-{The Publisher}
+{}
 }
 \newcommand{\footerstyled}{%
-{\large{Statistics \& Data Science \textbar{} STATS 140XP
-\url{https://keivanbolouri.github.io/finalProject140XP/}\\}}
+{STATS 140XP -- Practice of Statistical Consulting, Fall 2025
+\url{https://keivanbolouri.github.io/finalProject140XP/}\\}
 }
 \newcommand{\datestyled}{%
-{}
+{Invalid Date}
 }
 
 
@@ -305,7 +307,7 @@ Data Science,~8125 Math Sciences Bldg, Los Angeles, CA 90095
 
 %set up blocks so user can specify order
 \newcommand{\titleblock}{\newlength{\betweentitlesubtitle}
-\setlength{\betweentitlesubtitle}{\baselineskip}
+\setlength{\betweentitlesubtitle}{1pt}
 {
 
 {\titlepagetitleblock}
@@ -321,12 +323,12 @@ Data Science,~8125 Math Sciences Bldg, Los Angeles, CA 90095
 
 \newcommand{\affiliationblock}{{\titlepageaffiliationblock}
 
-\vspace{1pt}
+\vspace{2\baselineskip}
 }
 
-\newcommand{\logoblock}{{\includegraphics[width=0.25\textheight]{img/logo.png}}
+\newcommand{\logoblock}{{\includegraphics[width=0.1\textheight]{img/logo.png}}
 
-\vspace{2\baselineskip}
+\vspace{1\baselineskip}
 }
 
 \newcommand{\footerblock}{{\titlepagefooterblock}
@@ -334,46 +336,25 @@ Data Science,~8125 Math Sciences Bldg, Los Angeles, CA 90095
 \vspace{1pt}
 }
 
-\newcommand{\dateblock}{}
-
-\newcommand{\headerblock}{{\titlepageheaderblock
+\newcommand{\dateblock}{{\titlepagedateblock}
 
 \vspace{0pt}
-}}
-\newgeometry{top=3in,bottom=1in,right=1in,left=1in}
-% background image
-\newlength{\bgimagesize}
-\setlength{\bgimagesize}{0.5\paperwidth}
-\LENGTHDIVIDE{\bgimagesize}{\paperwidth}{\theRatio} % from calculator pkg
-\ThisULCornerWallPaper{\theRatio}{img/corner-bg.png}
+}
+
+\newcommand{\headerblock}{}
 
 \thispagestyle{empty} % no page numbers on titlepages
 
 
-\newcommand{\vrulecode}{\textcolor{black}{\rule{\vrulewidth}{\textheight}}}
-\newlength{\vrulewidth}
-\setlength{\vrulewidth}{1pt}
-\newlength{\B}
-\setlength{\B}{\ifdim\vrulewidth > 0pt 0.05\textwidth\else 0pt\fi}
 \newlength{\minipagewidth}
-\ifthenelse{\equal{left}{left} \OR \equal{left}{right} }
-{% True case
-\setlength{\minipagewidth}{\textwidth - \vrulewidth - \B - 0.1\textwidth}
-}{
-\setlength{\minipagewidth}{\textwidth - 2\vrulewidth - 2\B - 0.1\textwidth}
-}
-\ifthenelse{\equal{left}{left} \OR \equal{left}{leftright}}
-{% True case
-\raggedleft % needed for the minipage to work
-\vrulecode
-\hspace{\B}
-}{%
-\raggedright % else it is right only and width is not 0
-}
+\setlength{\minipagewidth}{\textwidth}
+\raggedright % single minipage
 % [position of box][box height][inner position]{width}
 % [s] means stretch out vertically; assuming there is a vfill
 \begin{minipage}[b][\textheight][s]{\minipagewidth}
 \titlepagepagealign
+\headerblock
+
 \titleblock
 
 \authorblock
@@ -387,11 +368,10 @@ Data Science,~8125 Math Sciences Bldg, Los Angeles, CA 90095
 \footerblock
 \par
 
-\end{minipage}\ifthenelse{\equal{left}{right} \OR \equal{left}{leftright} }{
+\end{minipage}\ifthenelse{\equal{}{right} \OR \equal{}{leftright} }{
 \hspace{\B}
 \vrulecode}{}
 \clearpage
-\restoregeometry
 %%% TITLE PAGE END
 \end{titlepage}
 \setcounter{page}{1}
@@ -967,7 +947,7 @@ Warning while fitting theta: alternation limit reached
 \end{Shaded}
 
 \begin{verbatim}
-# A tibble: 6 x 7
+# A tibble: 6 × 7
   term         estimate std.error statistic  p.value conf.low conf.high
   <chr>           <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
 1 (Intercept)     0.124    1.03    -2.04    4.16e- 2   0.0185      1.21
@@ -1046,7 +1026,7 @@ Warning while fitting theta: alternation limit reached
 \end{Shaded}
 
 \begin{verbatim}
-# A tibble: 7 x 7
+# A tibble: 7 × 7
   term              estimate std.error statistic  p.value conf.low conf.high
   <chr>                <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
 1 (Intercept)          0.116    1.04      -2.08  3.75e- 2   0.0171      1.14
@@ -1119,7 +1099,7 @@ Number of Fisher Scoring iterations: 1
 \end{Shaded}
 
 \begin{verbatim}
-# A tibble: 5 x 7
+# A tibble: 5 × 7
   term         estimate std.error statistic p.value conf.low conf.high
   <chr>           <dbl>     <dbl>     <dbl>   <dbl>    <dbl>     <dbl>
 1 (Intercept)     1.91     0.309      2.09  0.0363     1.13      3.34 
@@ -1142,7 +1122,7 @@ Number of Fisher Scoring iterations: 1
 \end{Shaded}
 
 \begin{verbatim}
-# A tibble: 4 x 4
+# A tibble: 4 × 4
   region  drone mean_civilian_casualties     n
   <fct>   <int>                    <dbl> <int>
 1 Somalia     0                   0.0753   146
@@ -1164,7 +1144,7 @@ Number of Fisher Scoring iterations: 1
 \end{Shaded}
 
 \begin{verbatim}
-# A tibble: 2 x 3
+# A tibble: 2 × 3
   region  mean_uncertainty     n
   <fct>              <dbl> <int>
 1 Somalia             1.56   190
@@ -1206,9 +1186,9 @@ E(\text{civilian casualties}) = {} &
 \end{aligned}
 \]
 
-\pandocbounded{\includegraphics[keepaspectratio]{Example_files/figure-pdf/unnamed-chunk-9-1.pdf}}
+\includegraphics[width=7in,height=\textheight,keepaspectratio]{Example_files/figure-html/unnamed-chunk-9-1.png}
 
-\pandocbounded{\includegraphics[keepaspectratio]{Example_files/figure-pdf/unnamed-chunk-10-1.pdf}}
+\includegraphics[width=7in,height=\textheight,keepaspectratio]{Example_files/figure-html/unnamed-chunk-10-1.png}
 
 \section{Visualization (Test 2)}\label{visualization-test-2}
 
@@ -1232,9 +1212,9 @@ E(\text{civilian casualties}) = {} &
 \end{aligned}
 \]
 
-\pandocbounded{\includegraphics[keepaspectratio]{Example_files/figure-pdf/unnamed-chunk-11-1.pdf}}
+\includegraphics[width=7in,height=\textheight,keepaspectratio]{Example_files/figure-html/unnamed-chunk-11-1.png}
 
-\pandocbounded{\includegraphics[keepaspectratio]{Example_files/figure-pdf/unnamed-chunk-12-1.pdf}}
+\includegraphics[width=7in,height=\textheight,keepaspectratio]{Example_files/figure-html/unnamed-chunk-12-1.png}
 
 \section{Visualization (Test 3)}\label{visualization-test-3}
 
@@ -1254,11 +1234,9 @@ E(\text{Uncertainty in casualties}) =
 + \beta_4\,\text{Minimum strikes}
 \]
 
-\pandocbounded{\includegraphics[keepaspectratio]{Example_files/figure-pdf/unnamed-chunk-13-1.pdf}}
+\includegraphics[width=7in,height=\textheight,keepaspectratio]{Example_files/figure-html/unnamed-chunk-13-1.png}
 
-\pandocbounded{\includegraphics[keepaspectratio]{Example_files/figure-pdf/unnamed-chunk-14-1.pdf}}
-
-\section{}\label{section-1}
+\includegraphics[width=7in,height=\textheight,keepaspectratio]{Example_files/figure-html/unnamed-chunk-14-1.png}
 
 \chapter{Conclusion}\label{conclusion}
 

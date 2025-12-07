@@ -56,24 +56,24 @@
     "text": "Visualizations"
   },
   {
-    "objectID": "methods.html#visualization-of-h1",
-    "href": "methods.html#visualization-of-h1",
+    "objectID": "methods.html#hypothesis-test-1",
+    "href": "methods.html#hypothesis-test-1",
     "title": "Methods",
-    "section": "Visualization of H1",
-    "text": "Visualization of H1\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nInterpretation of H1 Model Results\nThis discrepancy suggests that additional unmeasured factors—such as target type, population density, intelligence quality, or operational context—likely influence civilian harm in Yemen. Therefore, the model’s overall comparative conclusions remain valid, but predictions for Yemen should be interpreted cautiously due to the region’s greater variability."
+    "section": "Hypothesis Test 1",
+    "text": "Hypothesis Test 1\n\\[\n\\begin{aligned}\nH_{0}: &\\ \\text{Drone strikes have the same civilian impact in Somalia and Yemen.} \\\\\nH_{1}: &\\ \\text{Drone strikes have different civilian impacts across the two regions.}\n\\end{aligned}\n\\] \\[\n\\begin{aligned}\nE(\\text{civilian casualties}) = {} &\n\\beta_0\n+ \\beta_1(\\text{region})\n+ \\beta_2(\\text{drone})\n+ \\beta_3(\\text{US confirmed})\n+ \\beta_4(\\text{minimum strikes}) \\\\\n& + \\beta_5(\\text{total killed})\n\\end{aligned}\n\\]"
   },
   {
-    "objectID": "methods.html#visualization-of-h2",
-    "href": "methods.html#visualization-of-h2",
+    "objectID": "methods.html#hypothesis-test-2",
+    "href": "methods.html#hypothesis-test-2",
     "title": "Methods",
-    "section": "Visualization of H2",
-    "text": "Visualization of H2"
+    "section": "Hypothesis Test 2",
+    "text": "Hypothesis Test 2\n\\[\n\\begin{aligned}\nH_{0}: &\\ \\text{Drone use affects civilian casualties in the same way in both Somalia and Yemen.} \\\\\nH_{1}: &\\ \\text{Drone use affects civilian casualties differently across Somalia and Yemen.}\n\\end{aligned}\n\\] \\[\n\\begin{aligned}\nE(\\text{civilian casualties}) = {} &\n\\beta_0\n+ \\beta_1(\\text{drone})\n+ \\beta_2(\\text{region})\n+ \\beta_3(\\text{drone} \\times \\text{region}) \\\\\n& + \\beta_4(\\text{US confirmed})\n+ \\beta_5(\\text{minimum strikes})\n+ \\beta_6(\\text{total killed})\n\\end{aligned}\n\\]"
   },
   {
-    "objectID": "methods.html#visualization-of-h3",
-    "href": "methods.html#visualization-of-h3",
+    "objectID": "methods.html#hypothesis-test-3",
+    "href": "methods.html#hypothesis-test-3",
     "title": "Methods",
-    "section": "Visualization of H3",
-    "text": "Visualization of H3"
+    "section": "Hypothesis Test 3",
+    "text": "Hypothesis Test 3\n\\[\n\\begin{aligned}\nH_{0}: &\\ \\text{Reporting uncertainty does not differ between Somalia and Yemen.} \\\\\nH_{1}: &\\ \\text{Reporting uncertainty differs between Somalia and Yemen.}\n\\end{aligned}\n\\] \\[\nE(\\text{Uncertainty in casualties}) =\n\\beta_0\n+ \\beta_1\\,\\text{Region}\n+ \\beta_2\\,\\text{Drone}\n+ \\beta_3\\,\\text{US confirmed}\n+ \\beta_4\\,\\text{Minimum strikes}\n\\]"
   }
 ]
