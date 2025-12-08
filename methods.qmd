@@ -146,18 +146,6 @@ $$
 
 To test whether Somalia and Yemen differ in civilian casualty rates, we estimate:
 
-$$
-\begin{aligned}
-E(\text{civilian casualties}) = {} &
-\beta_0 
-+ \beta_1(\text{region}) 
-+ \beta_2(\text{drone}) 
-+ \beta_3(\text{US confirmed}) 
-+ \beta_4(\text{minimum strikes}) \\
-& + \beta_5(\text{total killed})
-\end{aligned}
-$$
-
 ```{r}
 #| echo: false
 
@@ -193,19 +181,6 @@ $$
 
 To evaluate whether drones behave differently across countries, we added an interaction term (`drone × region`).
 
-$$
-\begin{aligned}
-E(\text{civilian casualties}) = {} &
-\beta_0 
-+ \beta_1(\text{drone})
-+ \beta_2(\text{region}) 
-+ \beta_3(\text{drone} \times \text{region}) \\
-& + \beta_4(\text{US confirmed})
-+ \beta_5(\text{minimum strikes})
-+ \beta_6(\text{total killed})
-\end{aligned}
-$$
-
 ::: {style="height:0.1in;"}
 :::
 
@@ -220,17 +195,6 @@ $$
 
 \
 To assess whether casualty reporting uncertainty differs between regions, we model the uncertainty metric. We modeled casualty reporting uncertainty (defined as `max_killed - min_killed`) region and strike characteristics as predictors.
-
-$$
-E(\text{Uncertainty in casualties}) =
-\beta_0
-+ \beta_1\,\text{Region}
-+ \beta_2\,\text{Drone}
-+ \beta_3\,\text{US confirmed}
-+ \beta_4\,\text{Minimum strikes}
-$$
-
-where:
 
 $$
 \text{Uncertainty in casualties} = 
@@ -312,10 +276,64 @@ dispersiontest(pois_h1)
 **\
 Consequently, we use negative binomial regression, which relaxes the equidispersion assumption and is more appropriate for these data.**
 
-::: {style="height:0.1in;"}
-:::
+### 1.Statistical Method for Civilian Harm Difference:
 
-\
+### 
+
+$$
+\begin{aligned}
+\eta \;=\;&
+\beta_0
++ \beta_1(\text{drone})
++ \beta_2(\text{region})
++ \beta_3(\text{US confirmed}) \\
+&\quad
++ \beta_4(\text{minimum strikes})
++ \beta_5(\text{total killed})
+\end{aligned}
+$$
+
+$$
+E(\text{civilian casualties}) = e^{\eta}
+$$
+
+### 2.Statistical Method for Drone Effectiveness Across Countries: 
+
+$$
+\begin{aligned}
+\eta \;=\;&
+\beta_0
++ \beta_1(\text{drone})
++ \beta_2(\text{region})
++ \beta_3(\text{drone} \times \text{region}) \\
+&\quad
++ \beta_4(\text{US confirmed})
++ \beta_5(\text{minimum strikes})
++ \beta_6(\text{total killed})
+\end{aligned}
+$$
+
+$$
+E(\text{civilian casualties}) = e^{\eta}
+$$
+
+### 3.Statistical Method for  Reporting Uncertainty Differenc: 
+
+$$
+\begin{aligned}
+\eta \;=\;&
+\beta_0
++ \beta_1(\text{region})
++ \beta_2(\text{drone})
++ \beta_3(\text{US confirmed}) \\
+&\quad
++ \beta_4(\text{minimum strikes})
+\end{aligned}
+$$
+
+$$
+E(\text{uncertainty in casualties}) = e^{\eta}
+$$
 
 # Statistical Testing
 
@@ -467,18 +485,6 @@ H_{0}: &\ \text{Drone strikes have the same civilian impact in Somalia and Yemen
 H_{1}: &\ \text{Drone strikes have different civilian impacts across the two regions.}
 \end{aligned}
 $$
-$$
-\begin{aligned}
-E(\text{civilian casualties}) = {} &
-\beta_0 
-+ \beta_1(\text{region}) 
-+ \beta_2(\text{drone}) 
-+ \beta_3(\text{US confirmed}) 
-+ \beta_4(\text{minimum strikes}) \\
-& + \beta_5(\text{total killed})
-\end{aligned}
-$$
-
 
 ```{r}
 #| echo: false
@@ -620,28 +626,7 @@ ggplot() +
 
 ```
 
-
-
 ## Hypothesis Test 2
-
-$$
-\begin{aligned}
-H_{0}: &\ \text{Drone use affects civilian casualties in the same way in both Somalia and Yemen.} \\
-H_{1}: &\ \text{Drone use affects civilian casualties differently across Somalia and Yemen.}
-\end{aligned}
-$$
-$$
-\begin{aligned}
-E(\text{civilian casualties}) = {} &
-\beta_0 
-+ \beta_1(\text{drone})
-+ \beta_2(\text{region}) 
-+ \beta_3(\text{drone} \times \text{region}) \\
-& + \beta_4(\text{US confirmed})
-+ \beta_5(\text{minimum strikes})
-+ \beta_6(\text{total killed})
-\end{aligned}
-$$
 
 ```{r}
 #| echo: false
@@ -784,14 +769,6 @@ $$
 H_{0}: &\ \text{Reporting uncertainty does not differ between Somalia and Yemen.} \\
 H_{1}: &\ \text{Reporting uncertainty differs between Somalia and Yemen.}
 \end{aligned}
-$$
-$$
-E(\text{Uncertainty in casualties}) =
-\beta_0
-+ \beta_1\,\text{Region}
-+ \beta_2\,\text{Drone}
-+ \beta_3\,\text{US confirmed}
-+ \beta_4\,\text{Minimum strikes}
 $$
 
 ```{r}

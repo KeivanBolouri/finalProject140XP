@@ -669,18 +669,6 @@ H_{1}: &\ \text{Drone strikes have different civilian impacts across the two reg
 To test whether Somalia and Yemen differ in civilian casualty outcomes,
 we estimate the model:
 
-\[
-\begin{aligned}
-E(\text{civilian casualties}) = {} &
-\beta_0 
-+ \beta_1(\text{region}) 
-+ \beta_2(\text{drone}) 
-+ \beta_3(\text{US confirmed}) 
-+ \beta_4(\text{minimum strikes}) \\
-& + \beta_5(\text{total killed})
-\end{aligned}
-\]
-
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.2222}}
   >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.7778}}@{}}
@@ -730,19 +718,6 @@ H_{1}: &\ \text{Drone use affects civilian casualties differently across Somalia
 To evaluate whether the civilian impact of drone strikes varies by
 region, we include an interaction term between drone use and region:
 
-\[
-\begin{aligned}
-E(\text{civilian casualties}) = {} &
-\beta_0 
-+ \beta_1(\text{drone})
-+ \beta_2(\text{region}) 
-+ \beta_3(\text{drone} \times \text{region}) \\
-& + \beta_4(\text{US confirmed})
-+ \beta_5(\text{minimum strikes})
-+ \beta_6(\text{total killed})
-\end{aligned}
-\]
-
 \subsection{\texorpdfstring{\textbf{Hypothesis 3: Reporting Uncertainty
 Difference}}{Hypothesis 3: Reporting Uncertainty Difference}}\label{hypothesis-3-reporting-uncertainty-difference}
 
@@ -757,22 +732,6 @@ To assess whether casualty reporting uncertainty differs between
 regions, we model the uncertainty metric. We modeled casualty reporting
 uncertainty (defined as \texttt{max\_killed\ -\ min\_killed}) region and
 strike characteristics as predictors.
-
-\[
-E(\text{Uncertainty in casualties}) =
-\beta_0
-+ \beta_1\,\text{Region}
-+ \beta_2\,\text{Drone}
-+ \beta_3\,\text{US confirmed}
-+ \beta_4\,\text{Minimum strikes}
-\]
-
-where:
-
-\[
-\text{Uncertainty in casualties} = 
-\text{Maximum killed} - \text{Minimum killed}
-\]
 
 \chapter{Model Selection}\label{model-selection}
 
@@ -883,6 +842,57 @@ regression}---which includes an additional.
 
 Consequently, we use negative binomial regression, which relaxes the
 equidispersion assumption and is more appropriate for these data.
+
+\subsection{1.Statistical Method for Civilian Harm
+Difference:}\label{statistical-method-for-civilian-harm-difference}
+
+\[
+\begin{aligned}
+\eta \;=\;&
+\beta_0
++ \beta_1(\text{drone})
++ \beta_2(\text{region})
++ \beta_3(\text{drone} \times \text{region}) \\
+&\quad
++ \beta_4(\text{US confirmed})
++ \beta_5(\text{minimum strikes})
++ \beta_6(\text{total killed})
+\end{aligned}
+\]
+
+\[
+E(\text{civilian casualties}) = e^{\eta}
+\]
+
+\subsection{2.Statistical Method for Drone Effectiveness Across
+Countries:}\label{statistical-method-for-drone-effectiveness-across-countries}
+
+\[
+\begin{aligned}
+\eta \;=\;&
+\beta_0
++ \beta_1(\text{drone})
++ \beta_2(\text{region})
++ \beta_3(\text{drone} \times \text{region}) \\
+&\quad
++ \beta_4(\text{US confirmed})
++ \beta_5(\text{minimum strikes})
++ \beta_6(\text{total killed})
+\end{aligned}
+\]
+
+\[
+E(\text{civilian casualties}) = e^{\eta}
+\]
+
+\subsection{3.Statistical Method for Reporting Uncertainty
+Differenc:}\label{statistical-method-for-reporting-uncertainty-differenc}
+
+\[ \begin{aligned} \eta \;=\;& \beta_0 + \beta_1(\text{region}) + \beta_2(\text{drone}) + \beta_3(\text{US confirmed}) \\ &\quad + \beta_4(\text{minimum strikes}) \end{aligned} \]
+
+\[
+E(\text{uncertainty in casualties}) = e^{\eta}
+\]
 
 \chapter{Statistical Testing}\label{statistical-testing}
 
@@ -1165,24 +1175,12 @@ not supported}, though uncertainty varies by strike type.
 
 \chapter{Visualizations}\label{visualizations}
 
-\section{Visualization (Test 1)}\label{visualization-test-1}
+\section{Visualization (TEST 1)}\label{visualization-test-1}
 
 \[
 \begin{aligned}
 H_{0}: &\ \text{Drone strikes have the same civilian impact in Somalia and Yemen.} \\
 H_{1}: &\ \text{Drone strikes have different civilian impacts across the two regions.}
-\end{aligned}
-\]
-
-\[
-\begin{aligned}
-E(\text{civilian casualties}) = {} &
-\beta_0 
-+ \beta_1(\text{region}) 
-+ \beta_2(\text{drone}) 
-+ \beta_3(\text{US confirmed}) 
-+ \beta_4(\text{minimum strikes}) \\
-& + \beta_5(\text{total killed})
 \end{aligned}
 \]
 
@@ -1199,40 +1197,11 @@ H_{1}: &\ \text{Drone use affects civilian casualties differently across Somalia
 \end{aligned}
 \]
 
-\[
-\begin{aligned}
-E(\text{civilian casualties}) = {} &
-\beta_0 
-+ \beta_1(\text{drone})
-+ \beta_2(\text{region}) 
-+ \beta_3(\text{drone} \times \text{region}) \\
-& + \beta_4(\text{US confirmed})
-+ \beta_5(\text{minimum strikes})
-+ \beta_6(\text{total killed})
-\end{aligned}
-\]
-
 \pandocbounded{\includegraphics[keepaspectratio]{Example_files/figure-pdf/unnamed-chunk-11-1.pdf}}
 
 \pandocbounded{\includegraphics[keepaspectratio]{Example_files/figure-pdf/unnamed-chunk-12-1.pdf}}
 
 \section{Visualization (Test 3)}\label{visualization-test-3}
-
-\[
-\begin{aligned}
-H_{0}: &\ \text{Reporting uncertainty does not differ between Somalia and Yemen.} \\
-H_{1}: &\ \text{Reporting uncertainty differs between Somalia and Yemen.}
-\end{aligned}
-\]
-
-\[
-E(\text{Uncertainty in casualties}) =
-\beta_0
-+ \beta_1\,\text{Region}
-+ \beta_2\,\text{Drone}
-+ \beta_3\,\text{US confirmed}
-+ \beta_4\,\text{Minimum strikes}
-\]
 
 \pandocbounded{\includegraphics[keepaspectratio]{Example_files/figure-pdf/unnamed-chunk-13-1.pdf}}
 

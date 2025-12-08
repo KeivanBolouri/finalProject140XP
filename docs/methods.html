@@ -195,6 +195,10 @@ window.Quarto = {
   <li><a href="#model-selection" id="toc-model-selection" class="nav-link" data-scroll-target="#model-selection">Model selection</a>
   <ul class="collapse">
   <li><a href="#poisson-dispersion-test" id="toc-poisson-dispersion-test" class="nav-link" data-scroll-target="#poisson-dispersion-test">Poisson dispersion test</a></li>
+  <li><a href="#statistical-method-for-civilian-harm-difference" id="toc-statistical-method-for-civilian-harm-difference" class="nav-link" data-scroll-target="#statistical-method-for-civilian-harm-difference">1.Statistical Method for Civilian Harm Difference:</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
+  <li><a href="#statistical-method-for-drone-effectiveness-across-countries" id="toc-statistical-method-for-drone-effectiveness-across-countries" class="nav-link" data-scroll-target="#statistical-method-for-drone-effectiveness-across-countries">2.Statistical Method for Drone Effectiveness Across Countries:</a></li>
+  <li><a href="#statistical-method-for-reporting-uncertainty-differenc" id="toc-statistical-method-for-reporting-uncertainty-differenc" class="nav-link" data-scroll-target="#statistical-method-for-reporting-uncertainty-differenc">3.Statistical Method for Reporting Uncertainty Differenc:</a></li>
   </ul></li>
   <li><a href="#statistical-testing" id="toc-statistical-testing" class="nav-link" data-scroll-target="#statistical-testing">Statistical Testing</a>
   <ul class="collapse">
@@ -252,17 +256,6 @@ H_{1}: &amp;\ \text{Drone strikes have different civilian impacts across the two
 \end{aligned}
 \]</span></p>
 <p>To test whether Somalia and Yemen differ in civilian casualty rates, we estimate:</p>
-<p><span class="math display">\[
-\begin{aligned}
-E(\text{civilian casualties}) = {} &amp;
-\beta_0
-+ \beta_1(\text{region})
-+ \beta_2(\text{drone})
-+ \beta_3(\text{US confirmed})
-+ \beta_4(\text{minimum strikes}) \\
-&amp; + \beta_5(\text{total killed})
-\end{aligned}
-\]</span></p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -319,18 +312,6 @@ H_{1}: &amp;\ \text{Drone use affects civilian casualties differently across Som
 \end{aligned}
 \]</span></p>
 <p>To evaluate whether drones behave differently across countries, we added an interaction term (<code>drone × region</code>).</p>
-<p><span class="math display">\[
-\begin{aligned}
-E(\text{civilian casualties}) = {} &amp;
-\beta_0
-+ \beta_1(\text{drone})
-+ \beta_2(\text{region})
-+ \beta_3(\text{drone} \times \text{region}) \\
-&amp; + \beta_4(\text{US confirmed})
-+ \beta_5(\text{minimum strikes})
-+ \beta_6(\text{total killed})
-\end{aligned}
-\]</span></p>
 <div style="height:0.1in;">
 
 </div>
@@ -345,15 +326,6 @@ H_{1}: &amp;\ \text{Reporting uncertainty differs between Somalia and Yemen.}
 \]</span></p>
 <p><br>
 To assess whether casualty reporting uncertainty differs between regions, we model the uncertainty metric. We modeled casualty reporting uncertainty (defined as <code>max_killed - min_killed</code>) region and strike characteristics as predictors.</p>
-<p><span class="math display">\[
-E(\text{Uncertainty in casualties}) =
-\beta_0
-+ \beta_1\,\text{Region}
-+ \beta_2\,\text{Drone}
-+ \beta_3\,\text{US confirmed}
-+ \beta_4\,\text{Minimum strikes}
-\]</span></p>
-<p>where:</p>
 <p><span class="math display">\[
 \text{Uncertainty in casualties} =
 \text{Maximum killed} - \text{Minimum killed}
@@ -431,11 +403,63 @@ dispersion
 </strong>The resulting value of approximately <strong>1.95</strong> already suggested that the variance in the data was nearly twice as large as the Poisson model allows. We then conducted a formal <strong>overdispersion test</strong> using <code>dispersiontest()</code> from the <em>AER</em> package. The test returned a z-value of <strong>2.40</strong> with a p-value of <strong>0.008</strong>, indicating statistically significant overdispersion. In other words, the Poisson assumption that the mean equals the variance is violated. Because the data exhibit much greater variability than the Poisson model can accommodate, this test confirms that a <strong>negative binomial regression</strong>—which includes an additional</p>
 <p><strong><br>
 Consequently, we use negative binomial regression, which relaxes the equidispersion assumption and is more appropriate for these data.</strong></p>
-<div style="height:0.1in;">
-
-</div>
-<p><br>
-</p>
+</section>
+<section id="statistical-method-for-civilian-harm-difference" class="level3">
+<h3 class="anchored" data-anchor-id="statistical-method-for-civilian-harm-difference">1.Statistical Method for Civilian Harm Difference:</h3>
+</section>
+<section id="section" class="level3">
+<h3 class="anchored" data-anchor-id="section"></h3>
+<p><span class="math display">\[
+\begin{aligned}
+\eta \;=\;&amp;
+\beta_0
++ \beta_1(\text{drone})
++ \beta_2(\text{region})
++ \beta_3(\text{US confirmed}) \\
+&amp;\quad
++ \beta_4(\text{minimum strikes})
++ \beta_5(\text{total killed})
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+E(\text{civilian casualties}) = e^{\eta}
+\]</span></p>
+</section>
+<section id="statistical-method-for-drone-effectiveness-across-countries" class="level3">
+<h3 class="anchored" data-anchor-id="statistical-method-for-drone-effectiveness-across-countries">2.Statistical Method for Drone Effectiveness Across Countries:</h3>
+<p><span class="math display">\[
+\begin{aligned}
+\eta \;=\;&amp;
+\beta_0
++ \beta_1(\text{drone})
++ \beta_2(\text{region})
++ \beta_3(\text{drone} \times \text{region}) \\
+&amp;\quad
++ \beta_4(\text{US confirmed})
++ \beta_5(\text{minimum strikes})
++ \beta_6(\text{total killed})
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+E(\text{civilian casualties}) = e^{\eta}
+\]</span></p>
+</section>
+<section id="statistical-method-for-reporting-uncertainty-differenc" class="level3">
+<h3 class="anchored" data-anchor-id="statistical-method-for-reporting-uncertainty-differenc">3.Statistical Method for Reporting Uncertainty Differenc:</h3>
+<p><span class="math display">\[
+\begin{aligned}
+\eta \;=\;&amp;
+\beta_0
++ \beta_1(\text{region})
++ \beta_2(\text{drone})
++ \beta_3(\text{US confirmed}) \\
+&amp;\quad
++ \beta_4(\text{minimum strikes})
+\end{aligned}
+\]</span></p>
+<p><span class="math display">\[
+E(\text{uncertainty in casualties}) = e^{\eta}
+\]</span></p>
 </section>
 </section>
 <section id="statistical-testing" class="level1">
@@ -708,16 +732,6 @@ However, drone strikes show <strong>higher uncertainty</strong> (coef = 0.62, IR
 H_{0}: &amp;\ \text{Drone strikes have the same civilian impact in Somalia and Yemen.} \\
 H_{1}: &amp;\ \text{Drone strikes have different civilian impacts across the two regions.}
 \end{aligned}
-\]</span> <span class="math display">\[
-\begin{aligned}
-E(\text{civilian casualties}) = {} &amp;
-\beta_0
-+ \beta_1(\text{region})
-+ \beta_2(\text{drone})
-+ \beta_3(\text{US confirmed})
-+ \beta_4(\text{minimum strikes}) \\
-&amp; + \beta_5(\text{total killed})
-\end{aligned}
 \]</span></p>
 <div class="cell">
 <div class="cell-output-display">
@@ -740,23 +754,6 @@ E(\text{civilian casualties}) = {} &amp;
 </section>
 <section id="hypothesis-test-2" class="level2">
 <h2 class="anchored" data-anchor-id="hypothesis-test-2">Hypothesis Test 2</h2>
-<p><span class="math display">\[
-\begin{aligned}
-H_{0}: &amp;\ \text{Drone use affects civilian casualties in the same way in both Somalia and Yemen.} \\
-H_{1}: &amp;\ \text{Drone use affects civilian casualties differently across Somalia and Yemen.}
-\end{aligned}
-\]</span> <span class="math display">\[
-\begin{aligned}
-E(\text{civilian casualties}) = {} &amp;
-\beta_0
-+ \beta_1(\text{drone})
-+ \beta_2(\text{region})
-+ \beta_3(\text{drone} \times \text{region}) \\
-&amp; + \beta_4(\text{US confirmed})
-+ \beta_5(\text{minimum strikes})
-+ \beta_6(\text{total killed})
-\end{aligned}
-\]</span></p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -783,13 +780,6 @@ E(\text{civilian casualties}) = {} &amp;
 H_{0}: &amp;\ \text{Reporting uncertainty does not differ between Somalia and Yemen.} \\
 H_{1}: &amp;\ \text{Reporting uncertainty differs between Somalia and Yemen.}
 \end{aligned}
-\]</span> <span class="math display">\[
-E(\text{Uncertainty in casualties}) =
-\beta_0
-+ \beta_1\,\text{Region}
-+ \beta_2\,\text{Drone}
-+ \beta_3\,\text{US confirmed}
-+ \beta_4\,\text{Minimum strikes}
 \]</span></p>
 <div class="cell">
 <div class="cell-output-display">
