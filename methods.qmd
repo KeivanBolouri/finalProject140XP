@@ -271,7 +271,7 @@ dispersiontest(pois_h1)
 ```
 
 **\
-**The resulting value of approximately **1.95** already suggested that the variance in the data was nearly twice as large as the Poisson model allows. We then conducted a formal **overdispersion test** using `dispersiontest()` from the *AER* package. The test returned a z-value of **2.40** with a p-value of **0.008**, indicating statistically significant overdispersion. In other words, the Poisson assumption that the mean equals the variance is violated. Because the data exhibit much greater variability than the Poisson model can accommodate, this test confirms that a **negative binomial regression**—which includes an additional
+**The resulting value of approximately **1.95** already suggested that the variance in the data was nearly twice as large as the Poisson model allows. We then conducted a formal **overdispersion test** using `dispersiontest()` from the *AER* package. The test returned a z-value of **2.40** with a p-value of **0.008**, indicating statistically significant overdispersion. In other words, the Poisson assumption that the mean equals the variance is violated. Because the data exhibit much greater variability than the Poisson model can accommodate, this test confirms that a negative binomial regression—which includes an additional dispersion parameter—is more appropriate.
 
 **\
 Consequently, we use negative binomial regression, which relaxes the equidispersion assumption and is more appropriate for these data.**
@@ -297,7 +297,7 @@ $$
 E(\text{civilian casualties}) = e^{\eta}
 $$
 
-### 2.Statistical Method for Drone Effectiveness Across Countries: 
+### 2.Statistical Method for Drone Effectiveness Across Countries:
 
 $$
 \begin{aligned}
@@ -317,7 +317,7 @@ $$
 E(\text{civilian casualties}) = e^{\eta}
 $$
 
-### 3.Statistical Method for  Reporting Uncertainty Differenc: 
+### 3.Statistical Method for Reporting Uncertainty Differenc:
 
 $$
 \begin{aligned}

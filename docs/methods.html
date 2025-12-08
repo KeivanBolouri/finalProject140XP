@@ -400,7 +400,7 @@ dispersion
 </div>
 </div>
 <p><strong><br>
-</strong>The resulting value of approximately <strong>1.95</strong> already suggested that the variance in the data was nearly twice as large as the Poisson model allows. We then conducted a formal <strong>overdispersion test</strong> using <code>dispersiontest()</code> from the <em>AER</em> package. The test returned a z-value of <strong>2.40</strong> with a p-value of <strong>0.008</strong>, indicating statistically significant overdispersion. In other words, the Poisson assumption that the mean equals the variance is violated. Because the data exhibit much greater variability than the Poisson model can accommodate, this test confirms that a <strong>negative binomial regression</strong>—which includes an additional</p>
+</strong>The resulting value of approximately <strong>1.95</strong> already suggested that the variance in the data was nearly twice as large as the Poisson model allows. We then conducted a formal <strong>overdispersion test</strong> using <code>dispersiontest()</code> from the <em>AER</em> package. The test returned a z-value of <strong>2.40</strong> with a p-value of <strong>0.008</strong>, indicating statistically significant overdispersion. In other words, the Poisson assumption that the mean equals the variance is violated. Because the data exhibit much greater variability than the Poisson model can accommodate, this test confirms that a negative binomial regression—which includes an additional dispersion parameter—is more appropriate.</p>
 <p><strong><br>
 Consequently, we use negative binomial regression, which relaxes the equidispersion assumption and is more appropriate for these data.</strong></p>
 </section>
