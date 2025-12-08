@@ -262,13 +262,13 @@ The last step shown is the creation of `combined_model`, which is a filtered ver
 
 In practice, because we already replaced NAs with 0 or other values for most of these, there may be very few records dropped. However, this filter is a safety measure to ensure that the modeling dataset doesn’t include any undefined values. For example, if a particular entry had an entirely missing civilian casualty field in the raw data (and somehow our earlier replacement didn’t catch it), or if any event lacks data on number of strikes or total killed, it will be excluded. The end result `combined_model` contains only strikes with valid `civilian_casualties`, `total_killed`, `uncertainty_killed`, and `min_strikes` values. This will be the dataset used in subsequent analysis and hypothesis testing.
 
-# Methods
+# Hypothesis Tests
 
-## Statistical Methods
-
-### Hypothesis Tests
+## 
 
 ### **Hypothesis 1: Civilian Harm Difference**
+
+### 
 
 $$
 \begin{aligned}
@@ -555,7 +555,7 @@ $$
 E(\text{uncertainty in casualties}) = e^{\eta}
 $$
 
-# Statistical Testing
+# Results of Statistical Tests
 
 **Hypothesis Test 1**
 
@@ -657,7 +657,7 @@ However, drone strikes show **higher uncertainty** (coef = 0.62, IRR = **1.86**,
 
 # Visualizations
 
-## Visualization (TEST 1)
+## Visualization (Test 1)
 
 $$
 \begin{aligned}
