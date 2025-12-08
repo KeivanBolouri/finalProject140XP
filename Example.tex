@@ -837,8 +837,9 @@ returned a z-value of \textbf{2.40} with a p-value of \textbf{0.008},
 indicating statistically significant overdispersion. In other words, the
 Poisson assumption that the mean equals the variance is violated.
 Because the data exhibit much greater variability than the Poisson model
-can accommodate, this test confirms that a \textbf{negative binomial
-regression}---which includes an additional.
+can accommodate, this test confirms that a negative binomial
+regression---which includes an additional dispersion parameter---is more
+appropriate.
 
 Consequently, we use negative binomial regression, which relaxes the
 equidispersion assumption and is more appropriate for these data.
